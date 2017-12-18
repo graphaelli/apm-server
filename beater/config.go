@@ -19,6 +19,7 @@ type Config struct {
 	ConcurrentRequests int             `config:"concurrent_requests" validate:"min=1"`
 	Expvar             *ExpvarConfig   `config:"expvar"`
 	Frontend           *FrontendConfig `config:"frontend"`
+	Monitoring         *common.Config  `config:"xpack.monitoring"`
 }
 
 type ExpvarConfig struct {

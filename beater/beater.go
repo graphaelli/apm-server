@@ -10,6 +10,7 @@ import (
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
+	"github.com/elastic/beats/libbeat/monitoring/report"
 )
 
 type beater struct {
@@ -58,6 +59,16 @@ func (bt *beater) Run(b *beat.Beat) error {
 	go notifyListening(bt.config, pub.Send)
 
 	bt.server = newServer(bt.config, pub.Send)
+
+	if !bt.config.Monitoring.Enabled() {
+		logp.Info("Monitoring disabled")
+	} else {
+		if reporter, err := report.New(b.Info, bt.config.Monitoring, b.Config.Output); err != nil {
+			logp.Err("Failed to start monitoring: %s", err.Error())
+		} else {
+			defer reporter.Stop()
+		}
+	}
 
 	err = run(bt.server, lis, bt.config)
 	if err == http.ErrServerClosed {
