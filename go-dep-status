@@ -1,0 +1,61 @@
+PROJECT                                CONSTRAINT     VERSION        REVISION  LATEST   PKGS USED
+github.com/Microsoft/go-winio          v0.4.5         v0.4.5         7843996   7843996  1   
+github.com/Shopify/sarama              *                             1517403            1   
+github.com/StackExchange/wmi           branch master  branch master  ea383cf   ea383cf  1   
+github.com/davecgh/go-spew             v1.1.0         v1.1.0         346938d   346938d  1   
+github.com/docker/distribution         v2.6.2         v2.6.2         48294d9   48294d9  2   
+github.com/docker/docker               v1.13.1        v1.13.1        092cba3   092cba3  16  
+github.com/docker/go-connections       v0.3.0         v0.3.0         3ede32e   3ede32e  3   
+github.com/docker/go-units             v0.3.2         v0.3.2         0dadbb0   0dadbb0  1   
+github.com/eapache/go-resiliency       v1.0.0         v1.0.0         6800482   6800482  1   
+github.com/eapache/go-xerial-snappy    branch master  branch master  bb955e0   bb955e0  1   
+github.com/eapache/queue               v1.1.0         v1.1.0         44cc805   44cc805  1   
+github.com/elastic/beats               *                             2924e6e            69  
+github.com/elastic/go-lumber           v0.1.0         v0.1.0         616041e   616041e  2   
+github.com/elastic/go-ucfg             ^0.4.6         v0.4.6         ec8488a   ec8488a  6   
+github.com/elastic/gosigar             branch master  branch master  86d923f   86d923f  2   
+github.com/ericchiang/k8s              v0.4.0         v0.4.0         68b0248   68b0248  30  
+github.com/fatih/color                 *                             62e9147            1   
+github.com/fatih/set                   branch v0.1.1  branch v0.1.1  27c4092   27c4092  1   
+github.com/garyburd/redigo             v1.4.0         v1.4.0         d1ed5c6   d1ed5c6  2   
+github.com/ghodss/yaml                 v1.0.0         v1.0.0         0ca9ea5   0ca9ea5  1   
+github.com/go-ole/go-ole               branch master  branch master  a41e3c4   a41e3c4  2   
+github.com/go-sourcemap/sourcemap      ^2.0.1         v2.0.1         4dcf5f6   c5d1834  2   
+github.com/golang/protobuf             branch master  branch master  1e59b77   1e59b77  1   
+github.com/golang/snappy               branch master  branch master  553a641   553a641  1   
+github.com/hashicorp/golang-lru        branch master  branch master  0a025b7   0a025b7  2   
+github.com/inconshreveable/mousetrap   v1.0           v1.0           76626ae   76626ae  1   
+github.com/joeshaw/multierror          branch master  branch master  69b34d4   69b34d4  1   
+github.com/kabukky/httpscerts          branch master  branch master  617593d   617593d  1   
+github.com/klauspost/compress          v1.2.1         v1.2.1         6c8db69   6c8db69  2   
+github.com/klauspost/cpuid             v1.1           v1.1           ae7887d   ae7887d  1   
+github.com/mattn/go-colorable          *                             3fa8c76            1   
+github.com/mattn/go-isatty             v0.0.2         v0.0.2         fc9e8d8   fc9e8d8  1   
+github.com/mitchellh/hashstructure     branch master  branch master  2bca23e   2bca23e  1   
+github.com/mitchellh/mapstructure      branch master  branch master  06020f8   06020f8  1   
+github.com/patrickmn/go-cache          ^2.1.0         v2.1.0         a3647f8   a3647f8  1   
+github.com/pierrec/lz4                 v1.1           v1.1           2fcda4c   2fcda4c  1   
+github.com/pierrec/xxHash              v0.1.1         v0.1.1         f051bb7   f051bb7  1   
+github.com/pkg/errors                  ^0.8.0         v0.8.0         645ef00   645ef00  1   
+github.com/pmezard/go-difflib          v1.0.0         v1.0.0         792786c   792786c  1   
+github.com/rcrowley/go-metrics         branch master  branch master  e181e09   e181e09  1   
+github.com/ryanuber/go-glob            branch master  branch master  256dc44   256dc44  1   
+github.com/santhosh-tekuri/jsonschema  ^1.0.0         v1.0.0         63accc9   63accc9  3   
+github.com/satori/go.uuid              v1.1.0         v1.1.0         879c588   879c588  1   
+github.com/sergi/go-diff               *                             feef008            1   
+github.com/spf13/cobra                 *                             1be1d28            1   
+github.com/spf13/pflag                 branch master  branch master  4c012f6   4c012f6  1   
+github.com/stretchr/testify            ^1.1.4         v1.1.4         69483b4   b91bfb9  1   
+github.com/urso/go-structform          v0.0.2         v0.0.2         844d7d4   844d7d4  5   
+github.com/yudai/gojsondiff            *                             081cda2            2   
+github.com/yudai/golcs                 branch master  branch master  ecda9a5   ecda9a5  1   
+go.uber.org/atomic                     v1.3.1         v1.3.1         8474b86   8474b86  1   
+go.uber.org/multierr                   branch master  branch master  fb7d312   fb7d312  1   
+go.uber.org/zap                        branch master  branch master  f85c78b   f85c78b  7   
+golang.org/x/crypto                    branch master  branch master  0fcca48   0fcca48  2   
+golang.org/x/net                       branch master  branch master  42fe2e1   42fe2e1  7   
+golang.org/x/sys                       branch master  branch master  a3f2cbd   a3f2cbd  6   
+golang.org/x/text                      branch master  branch master  e19ae14   e19ae14  14  
+golang.org/x/time                      *                             8be79e1            1   
+golang.org/x/tools                     branch master  branch master  b790d0b   b790d0b  3   
+gopkg.in/yaml.v2                       branch v2      branch v2      0e4404d   0e4404d  1   
