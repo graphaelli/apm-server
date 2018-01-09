@@ -12,6 +12,7 @@ apm-server:
     # To enable experimental frontend support set this to true.
     enabled: false
 
+  xpack.monitoring.enabled: true
   # Authorization token to be checked. If a token is set here the agents must
   # send their token in the following format: Authorization: Bearer <secret-token>
   #secret_token:
