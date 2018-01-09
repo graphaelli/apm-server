@@ -63,6 +63,9 @@ func (bt *beater) Run(b *beat.Beat) error {
 	if !bt.config.Monitoring.Enabled() {
 		logp.Info("Monitoring disabled")
 	} else {
+		bt.config.Monitoring.Merge(struct {
+			SystemId string `config:"elasticsearch.parameters.system_id"`
+		}{"apm"})
 		if reporter, err := report.New(b.Info, bt.config.Monitoring, b.Config.Output); err != nil {
 			logp.Err("Failed to start monitoring: %s", err.Error())
 		} else {
