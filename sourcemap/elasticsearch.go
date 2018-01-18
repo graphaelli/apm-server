@@ -2,7 +2,10 @@ package sourcemap
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"net/http"
+	"net/url"
 
 	"github.com/go-sourcemap/sourcemap"
 
@@ -31,26 +34,45 @@ func NewElasticsearch(config *common.Config, index string) (*smapElasticsearch, 
 }
 
 func (e *smapElasticsearch) fetch(id Id) (*sourcemap.Consumer, error) {
-	result, err := e.runESQuery(query(id))
+	result, err := e.runESQuery(queryParams(id))
 	if err != nil {
 		return nil, err
 	}
 	return parseResult(result, id)
 }
 
-func (e *smapElasticsearch) runESQuery(body map[string]interface{}) (*es.SearchResults, error) {
+func (e *smapElasticsearch) runESQuery(path string) (*es.SearchResults, error) {
 	var err error
-	var result *es.SearchResults
+	var res []byte
+
+	// makePath, no need to support docType
+	url := e.index + "/_search?" + path
 	for _, client := range e.clients {
-		_, result, err = client.Connection.SearchURIWithBody(e.index, "", nil, body)
+		// client.SearchURIWithBody is not not safe for concurrent use
+		// client.SearchURI does not allow multiple params with the same key
+		_, res, err = client.RequestURL(http.MethodGet, client.URL+"/"+url, nil)
 		if err == nil {
-			return result, nil
+			return readSearchResult(res)
 		}
 	}
 	if err != nil {
 		return nil, Error{Msg: err.Error(), Kind: AccessError}
 	}
-	return result, nil
+	// reachable? only if e.clients is empty
+	return nil, errors.New("runESQuery failed")
+}
+
+func readSearchResult(obj []byte) (*es.SearchResults, error) {
+	var result es.SearchResults
+	if obj == nil {
+		return nil, nil
+	}
+
+	err := json.Unmarshal(obj, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, err
 }
 
 func parseResult(result *es.SearchResults, id Id) (*sourcemap.Consumer, error) {
@@ -69,6 +91,20 @@ func parseResult(result *es.SearchResults, id Id) (*sourcemap.Consumer, error) {
 		}
 	}
 	return cons, nil
+}
+
+func queryParams(id Id) string {
+	return url.Values{
+		"q": []string{
+			"processor.name:sourcemap",
+			"sourcemap.service.name:" + fmt.Sprintf("\"%s\"", id.ServiceName),
+			"sourcemap.service.version:" + fmt.Sprintf("\"%s\"", id.ServiceVersion),
+			"sourcemap.bundle_filepath:" + fmt.Sprintf("\"%s\"", id.Path),
+		},
+		"sort": []string{
+			"@timestamp:desc",
+		},
+	}.Encode()
 }
 
 func query(id Id) map[string]interface{} {
