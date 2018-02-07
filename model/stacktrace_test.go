@@ -10,6 +10,40 @@ import (
 	"github.com/elastic/beats/libbeat/common"
 )
 
+func BenchmarkStacktrace(b *testing.B) {
+	service := Service{Name: "myService"}
+	colno := 1
+	fct := "original function"
+	absPath := "original path"
+
+	for n := 0; n < b.N; n++ {
+		Stacktrace{
+			&StacktraceFrame{
+				Colno:    &colno,
+				Lineno:   4,
+				Filename: "original filename",
+				Function: &fct,
+				AbsPath:  &absPath,
+			},
+			&StacktraceFrame{Colno: &colno, Lineno: 6, Function: &fct, AbsPath: &absPath},
+			&StacktraceFrame{Colno: &colno, Lineno: 8, Function: &fct, AbsPath: &absPath},
+			&StacktraceFrame{
+				Colno:    &colno,
+				Lineno:   5,
+				Filename: "original filename",
+				Function: &fct,
+				AbsPath:  &absPath,
+			},
+			&StacktraceFrame{
+				Colno:    &colno,
+				Lineno:   4,
+				Filename: "/webpack",
+				AbsPath:  &absPath,
+			},
+		}.Transform(&pr.Config{}, service)
+	}
+}
+
 func TestStacktraceTransform(t *testing.T) {
 	service := Service{Name: "myService"}
 	colno := 1
