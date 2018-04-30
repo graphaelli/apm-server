@@ -21,16 +21,16 @@ type Sample interface {
 	Value() interface{}
 }
 
-type FloatSample struct {
+type StandardSample struct {
 	name  string
-	value json.Number
+	value interface{}
 }
 
-func (c FloatSample) Name() string {
+func (c StandardSample) Name() string {
 	return c.name
 }
 
-func (c FloatSample) Value() interface{} {
+func (c StandardSample) Value() interface{} {
 	return c.value
 }
 
@@ -46,6 +46,37 @@ type Payload struct {
 	Metrics []Metric
 }
 
+func decodeSample(name string, s json.Number) Sample {
+	if f, err := s.Int64(); err == nil {
+		return StandardSample{
+			name:  name,
+			value: f,
+		}
+	}
+
+	if f, err := s.Float64(); err == nil {
+		return StandardSample{
+			name:  name,
+			value: f,
+		}
+	}
+
+	return StandardSample{
+		name:  name,
+		value: s.String(),
+	}
+}
+
+func firstV(sample map[string]interface{}) interface{} {
+	for _, k := range []string{"count", "value"} {
+		if v, ok := sample[k]; ok {
+			fmt.Println("found", v)
+			return v
+		}
+	}
+	return nil
+}
+
 func decodeSamples(raw map[string]interface{}) []Sample {
 	sl := make([]Sample, 0)
 
@@ -53,18 +84,15 @@ func decodeSamples(raw map[string]interface{}) []Sample {
 	fmt.Println(samples)
 	for name, s := range samples {
 		sample := s.(map[string]interface{})
-		v, ok := sample["value"]
-		if !ok {
+		v := firstV(sample)
+		if v == nil {
 			continue
 		}
 		f, ok := v.(json.Number)
 		if !ok {
 			continue
 		}
-		sl = append(sl, FloatSample{
-			name:  name,
-			value: f,
-		})
+		sl = append(sl, decodeSample(name, f))
 	}
 
 	return sl
