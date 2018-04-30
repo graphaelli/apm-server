@@ -28,7 +28,7 @@ metrics-send: metrics
 
 .PHONY: metrics-send-test
 metrics-send-test: metrics apm-server
-	./apm-server -e -d publish,request &
+	timeout 5 ./apm-server -e -d publish,request &
 	sleep 1
 	ELASTIC_APM_SERVER_URL=http://localhost:8200 ./metrics
 

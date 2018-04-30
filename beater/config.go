@@ -26,7 +26,6 @@ type Config struct {
 	Expvar              *ExpvarConfig   `config:"expvar"`
 	Frontend            *FrontendConfig `config:"frontend"`
 	AugmentEnabled      bool            `config:"capture_personal_data"`
-	SelfInstrument      bool            `config:"self_instrument"`
 }
 
 type ExpvarConfig struct {
@@ -124,7 +123,6 @@ func defaultConfig(beatVersion string) *Config {
 		ShutdownTimeout:     5 * time.Second,
 		SecretToken:         "",
 		AugmentEnabled:      true,
-		SelfInstrument:      false,
 		Frontend: &FrontendConfig{
 			beatVersion:  beatVersion,
 			Enabled:      new(bool),

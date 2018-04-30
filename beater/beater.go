@@ -6,16 +6,9 @@ import (
 	"net"
 	"net/http"
 	"net/url"
-	"os"
 	"regexp"
 	"sync"
-	"time"
 
-	"github.com/prometheus/client_golang/prometheus"
-
-	"github.com/elastic/apm-agent-go"
-	"github.com/elastic/apm-agent-go/contrib/apmprometheus"
-	"github.com/elastic/apm-agent-go/transport"
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
@@ -27,7 +20,6 @@ type beater struct {
 	server  *http.Server
 	stopped bool
 	logger  *logp.Logger
-	tracer  *elasticapm.Tracer
 }
 
 // Creates beater
@@ -47,6 +39,7 @@ func New(b *beat.Beat, ucfg *common.Config) (beat.Beater, error) {
 			beaterConfig.setElasticsearch(b.Config.Output.Config())
 		}
 	}
+
 	bt := &beater{
 		config:  beaterConfig,
 		stopped: false,
@@ -105,26 +98,8 @@ func (bt *beater) Run(b *beat.Beat) error {
 		return nil
 	}
 
-	network, _ := parseListener(bt.config.Host)
-	if bt.config.SelfInstrument && network == "tcp" {
-		go func() {
-			protocol := "http://"
-			if bt.config.SSL.isEnabled() {
-				protocol = "https://"
-			}
-			if os.Getenv("ELASTIC_APM_SERVER_URL") == "" {
-				os.Setenv("ELASTIC_APM_SERVER_URL", protocol+lis.Addr().String())
-				// arbitrary wait for server start up
-				time.Sleep(time.Second)
-				transport.InitDefault()
-			}
-			bt.tracer, _ = elasticapm.NewTracer("apm-server", "6.x")
-			bt.tracer.AddMetricsGatherer(apmprometheus.Wrap(prometheus.DefaultGatherer))
-			bt.tracer.SendMetrics(nil)
-		}()
-	}
-
 	go notifyListening(bt.config, pub.client.Publish)
+
 	bt.mutex.Lock()
 	if bt.stopped {
 		defer bt.mutex.Unlock()
@@ -133,6 +108,7 @@ func (bt *beater) Run(b *beat.Beat) error {
 
 	bt.server = newServer(bt.config, pub.Send)
 	bt.mutex.Unlock()
+
 	err = run(bt.server, lis, bt.config)
 	if err == http.ErrServerClosed {
 		bt.logger.Infof("Listener stopped: %s", err.Error())
@@ -148,10 +124,6 @@ func (bt *beater) Stop() {
 	bt.mutex.Lock()
 	if bt.server != nil {
 		stop(bt.server)
-	}
-	// race!
-	if bt.tracer != nil {
-		bt.tracer.Close()
 	}
 	bt.stopped = true
 	bt.mutex.Unlock()

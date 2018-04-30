@@ -2,6 +2,7 @@ package metric
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/elastic/apm-server/config"
@@ -49,6 +50,7 @@ func decodeSamples(raw map[string]interface{}) []Sample {
 	sl := make([]Sample, 0)
 
 	samples := raw["samples"].(map[string]interface{})
+	fmt.Println(samples)
 	for name, s := range samples {
 		sample := s.(map[string]interface{})
 		v, ok := sample["value"]
@@ -111,7 +113,7 @@ func (pa *Payload) Transform(conf config.Config) []beat.Event {
 			"system":    pa.System.Transform(),
 		}
 		for _, sample := range metric.Samples {
-			fields.Put("metric."+sample.Name(), sample.Value())
+			fields[sample.Name()] = sample.Value()
 		}
 		ev := beat.Event{
 			Fields:    fields,

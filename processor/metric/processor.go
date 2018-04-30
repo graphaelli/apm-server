@@ -3,7 +3,6 @@ package metric
 import (
 	pr "github.com/elastic/apm-server/processor"
 	"github.com/elastic/beats/libbeat/monitoring"
-	"github.com/santhosh-tekuri/jsonschema"
 )
 
 const (
@@ -12,22 +11,17 @@ const (
 )
 
 var (
-	metricMetrics   = monitoring.Default.NewRegistry("apm-server.processor.metric", monitoring.PublishExpvar)
-	validationCount = monitoring.NewInt(metricMetrics, "validation.count")
-	validationError = monitoring.NewInt(metricMetrics, "validation.error")
-	decodingCount   = monitoring.NewInt(metricMetrics, "decoding.count")
-	decodingError   = monitoring.NewInt(metricMetrics, "decoding.errors")
+	sourcemapUploadMetrics = monitoring.Default.NewRegistry("apm-server.processor.metric", monitoring.PublishExpvar)
+	validationCount        = monitoring.NewInt(sourcemapUploadMetrics, "validation.count")
+	decodingCount          = monitoring.NewInt(sourcemapUploadMetrics, "decoding.count")
+	decodingError          = monitoring.NewInt(sourcemapUploadMetrics, "decoding.errors")
 )
 
-type processor struct {
-	schema *jsonschema.Schema
-}
+type processor struct{}
 
 func NewProcessor() pr.Processor {
-	return &processor{schema: schema}
+	return &processor{}
 }
-
-var schema = pr.CreateSchema(metricSchema, processorName)
 
 func (p *processor) Name() string {
 	return processorName
@@ -35,11 +29,7 @@ func (p *processor) Name() string {
 
 func (p *processor) Validate(raw map[string]interface{}) error {
 	validationCount.Inc()
-	err := pr.Validate(raw, p.schema)
-	if err != nil {
-		validationError.Inc()
-	}
-	return err
+	return nil
 }
 
 func (p *processor) Decode(raw map[string]interface{}) (pr.Payload, error) {
