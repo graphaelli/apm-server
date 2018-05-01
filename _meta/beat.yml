@@ -61,7 +61,7 @@ output.elasticsearch:
   # Array of hosts to connect to.
   hosts: ["localhost:9200"]
 
-  # By using the configuration below, apm documents are stored to separate indices, 
+  # By using the configuration below, apm documents are stored to separate indices,
   # depending on their `processor.event`:
   # - error
   # - transaction
@@ -69,12 +69,12 @@ output.elasticsearch:
   # - sourcemap (experimental feature)
   #
   # The indices are all prefixed with `apm-%{[beat.version]}`.
-  # To allow managing indices based on their age, all indices (except for sourcemaps) 
+  # To allow managing indices based on their age, all indices (except for sourcemaps)
   # end with the information of the day they got indexed.
   # e.g. "apm-6.3.0-transaction-2018.03.20"
   #
   # Be aware that you can only specify one Elasticsearch template and one Kibana Index Pattern,
-  # In case you modify the index patterns you must also update those configurations accordingly, 
+  # In case you modify the index patterns you must also update those configurations accordingly,
   # as they need to be aligned:
   # * `setup.template.name`
   # * `setup.template.pattern`
@@ -95,6 +95,12 @@ output.elasticsearch:
     - index: "apm-%{[beat.version]}-span-%{+yyyy.MM.dd}"
       when.contains:
         processor.event: "span"
+
+    - index: "apm-%{[beat.version]}-metric-%{+yyyy.MM.dd}"
+      when.contains:
+        processor.event: "metric"
+
+
 
   # Optional protocol and basic auth credentials.
   #protocol: "https"
