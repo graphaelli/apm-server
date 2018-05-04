@@ -1,9 +1,10 @@
 package metric
 
 import (
+	"github.com/santhosh-tekuri/jsonschema"
+
 	pr "github.com/elastic/apm-server/processor"
 	"github.com/elastic/beats/libbeat/monitoring"
-	"github.com/santhosh-tekuri/jsonschema"
 )
 
 const (
@@ -28,7 +29,6 @@ func NewProcessor() pr.Processor {
 }
 
 var schema = pr.CreateSchema(metricSchema, processorName)
-
 
 func (p *processor) Name() string {
 	return processorName

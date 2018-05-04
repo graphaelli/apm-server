@@ -124,7 +124,7 @@ func defaultConfig(beatVersion string) *Config {
 		ShutdownTimeout:     5 * time.Second,
 		SecretToken:         "",
 		AugmentEnabled:      true,
-		SelfInstrument: false,
+		SelfInstrument:      false,
 		Frontend: &FrontendConfig{
 			beatVersion:  beatVersion,
 			Enabled:      new(bool),

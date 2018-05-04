@@ -1,0 +1,20 @@
+- key: apm-metric
+  title: APM Metric
+  description: APM Metrics for correlation with traces and logs
+  fields:
+      - name: metric
+        type: group
+        dynamic: false
+        fields:
+          - name: samples
+            dynamic: true
+            type: object
+            description: >
+              Sampled metrics collected from the agent, as counter or gauge types
+
+          - name: tags
+            type: object
+            object_type: keyword
+            dynamic: true
+            description: >
+              Any number of key,value pairs associated to the sampled metrics.

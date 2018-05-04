@@ -6,9 +6,9 @@ func Schema() string {
 
 var metricSchema = `{
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "$id": "docs/spec/transactions/payload.json",
-    "title": "Transactions payload",
-    "description": "List of transactions wrapped in an object containing some other attributes normalized away from the transactions themselves",
+    "$id": "docs/spec/metrics/payload.json",
+    "title": "Metrics payload",
+    "description": "APM Metrics for correlation with traces and logs",
     "type": "object",
     "properties": {
         "service": {
@@ -149,8 +149,36 @@ var metricSchema = `{
             "maxLength": 1024
         }
     }
+        },
+        "metrics": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "samples": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "description": "Key,value pairs"
+                    },
+                    "description": "Sampled application metrics collected from the agent"
+                },
+                "tags": {
+                    "type": [
+                        "object",
+                        "null"
+                    ],
+                    "description": "Any number of key,value pairs associated to the sampled metrics"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "pattern": "Z$",
+                    "format": "date-time",
+                    "description": "Recorded time of the samples, UTC based and formatted as YYYY-MM-DDTHH:mm:ss.sssZ"
+                }
+            }
         }
     },
-    "required": ["service"]
+    "required": ["service", "metrics"]
 }
 `

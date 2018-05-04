@@ -9,15 +9,17 @@ import (
 	"regexp"
 	"sync"
 
+	"os"
+	"time"
+
+	"github.com/prometheus/client_golang/prometheus"
+
+	"github.com/elastic/apm-agent-go"
+	"github.com/elastic/apm-agent-go/contrib/apmprometheus"
+	"github.com/elastic/apm-agent-go/transport"
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
-	"github.com/elastic/apm-agent-go"
-	"github.com/elastic/apm-agent-go/contrib/apmprometheus"
-	"github.com/prometheus/client_golang/prometheus"
-	"os"
-	"github.com/elastic/apm-agent-go/transport"
-	"time"
 )
 
 type beater struct {
@@ -26,7 +28,7 @@ type beater struct {
 	server  *http.Server
 	stopped bool
 	logger  *logp.Logger
-	tracer *elasticapm.Tracer
+	tracer  *elasticapm.Tracer
 }
 
 // Creates beater

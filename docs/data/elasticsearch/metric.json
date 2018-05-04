@@ -1,0 +1,38 @@
+{
+    "process": {
+        "argv": [
+            "./apm-server"
+        ],
+        "pid": 32472,
+        "ppid": 26110
+    },
+    "processor": {
+        "event": "metric",
+        "name": "metric"
+    },
+    "service": {
+        "agent": {
+            "name": "elastic-go",
+            "version": "0.1.0"
+        },
+        "environment": "staging",
+        "language": {
+            "name": "go",
+            "version": "go1.10.1"
+        },
+        "name": "apm-server",
+        "runtime": {
+            "name": "gc",
+            "version": "go1.10.1"
+        },
+        "version": "6.x"
+    },
+    "system": {
+        "architecture": "amd64",
+        "ip": "127.0.0.1",
+        "platform": "darwin"
+    },
+    "tags": {
+        "code": "200"
+    }
+}

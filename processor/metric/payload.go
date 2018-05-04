@@ -35,6 +35,7 @@ func (c StandardSample) Value() interface{} {
 
 type Metric struct {
 	Samples   []Sample
+	Tags      common.MapStr
 	Timestamp time.Time
 }
 
@@ -119,6 +120,7 @@ func DecodePayload(raw map[string]interface{}) (*Payload, error) {
 		pa.Metrics = append(pa.Metrics, Metric{
 			Samples:   decodeSamples(raw),
 			Timestamp: decoder.TimeRFC3339WithDefault(raw, "timestamp"),
+			Tags:      decoder.MapStr(raw, "tags"),
 		})
 	}
 	return &pa, nil
@@ -136,6 +138,7 @@ func (pa *Payload) Transform(conf config.Config) []beat.Event {
 			"process":   pa.Process.Transform(),
 			"service":   pa.Service.Transform(),
 			"system":    pa.System.Transform(),
+			"tags":      metric.Tags,
 		}
 		for _, sample := range metric.Samples {
 			fields.Put("metric."+sample.Name(), sample.Value())
