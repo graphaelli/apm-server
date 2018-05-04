@@ -1,0 +1,51 @@
+{
+    "events": [
+        {
+            "@timestamp": "2018-05-04T16:18:59.254213888+02:00",
+            "metric": {
+                "go_memstats_gc_sys_bytes": 438272,
+                "go_memstats_heap_objects": 16156,
+                "go_memstats_heap_released_bytes": 0,
+                "go_memstats_heap_sys_bytes": 6520832,
+                "go_memstats_lookups_total": 17,
+                "go_memstats_other_sys_bytes": 1268100
+            },
+            "process": {
+                "argv": [
+                    "./apm-server"
+                ],
+                "pid": 32472,
+                "ppid": 26110
+            },
+            "processor": {
+                "event": "metric",
+                "name": "metric"
+            },
+            "service": {
+                "agent": {
+                    "name": "elastic-go",
+                    "version": "0.1.0"
+                },
+                "environment": "staging",
+                "language": {
+                    "name": "go",
+                    "version": "go1.10.1"
+                },
+                "name": "apm-server",
+                "runtime": {
+                    "name": "gc",
+                    "version": "go1.10.1"
+                },
+                "version": "6.x"
+            },
+            "system": {
+                "architecture": "amd64",
+                "ip": "127.0.0.1",
+                "platform": "darwin"
+            },
+            "tags": {
+                "code": "200"
+            }
+        }
+    ]
+}
