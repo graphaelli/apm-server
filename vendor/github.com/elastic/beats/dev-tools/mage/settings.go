@@ -63,11 +63,13 @@ var (
 	BeatLicense     = EnvOr("BEAT_LICENSE", "ASL 2.0")
 	BeatURL         = EnvOr("BEAT_URL", "https://www.elastic.co/products/beats/"+BeatName)
 
-	Snapshot bool
+	Snapshot         bool
+	VersionQualified bool
+	versionQualifier string
 
 	FuncMap = map[string]interface{}{
 		"beat_doc_branch":   BeatDocBranch,
-		"beat_version":      BeatVersion,
+		"beat_version":      QualifiedVersion,
 		"commit":            CommitHash,
 		"date":              BuildDate,
 		"elastic_beats_dir": ElasticBeatsDir,
@@ -98,6 +100,8 @@ func init() {
 	if err != nil {
 		panic(errors.Errorf("failed to parse SNAPSHOT env value", err))
 	}
+
+	versionQualifier, VersionQualified = os.LookupEnv("BEAT_VERSION_QUALIFIER")
 }
 
 // EnvMap returns map containing the common settings variables and all variables
@@ -130,6 +134,7 @@ func varMap(args ...map[string]interface{}) map[string]interface{} {
 		"BeatLicense":     BeatLicense,
 		"BeatURL":         BeatURL,
 		"Snapshot":        Snapshot,
+		"qualifier":       versionQualifier,
 	}
 
 	// Add the extra args to the map.
@@ -157,6 +162,7 @@ BeatDescription = {{.BeatDescription}}
 BeatVendor      = {{.BeatVendor}}
 BeatLicense     = {{.BeatLicense}}
 BeatURL         = {{.BeatURL}}
+qualifier       = {{ .qualifier }}
 
 ## Functions
 
@@ -309,6 +315,18 @@ var (
 	beatVersionErr   error
 	beatVersionOnce  sync.Once
 )
+
+func QualifiedVersion() (string, error) {
+	version, err := BeatVersion()
+	if err != nil {
+		return "", err
+	}
+
+	if !VersionQualified {
+		return version, nil
+	}
+	return version + "-" + versionQualifier, nil
+}
 
 // BeatVersion returns the Beat's version. The value can be overridden by
 // setting BEAT_VERSION in the environment.
