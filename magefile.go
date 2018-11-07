@@ -184,6 +184,11 @@ func customizePackaging() {
 			args.Spec.ReplaceFile("README.md", readmeTemplate)
 			args.Spec.Files[ingestTarget] = ingest
 
+		case mage.Docker:
+			delete(args.Spec.Files, "{{.BeatName}}.reference.yml")
+			args.Spec.ReplaceFile("README.md", readmeTemplate)
+			args.Spec.Files[ingestTarget] = ingest
+
 		case mage.Deb, mage.RPM:
 			delete(args.Spec.Files, "/etc/{{.BeatName}}/{{.BeatName}}.reference.yml")
 			args.Spec.ReplaceFile("/usr/share/{{.BeatName}}/README.md", readmeTemplate)
