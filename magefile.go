@@ -29,6 +29,7 @@ import (
 	"github.com/magefile/mage/sh"
 	"github.com/pkg/errors"
 
+	"github.com/elastic/apm-server/beater"
 	"github.com/elastic/beats/dev-tools/mage"
 )
 
@@ -188,6 +189,8 @@ func customizePackaging() {
 			delete(args.Spec.Files, "{{.BeatName}}.reference.yml")
 			args.Spec.ReplaceFile("README.md", readmeTemplate)
 			args.Spec.Files[ingestTarget] = ingest
+			args.Spec.ExtraVars["expose_ports"] = beater.DefaultPort
+			args.Spec.ExtraVars["repository"] = "docker.elastic.co/apm"
 
 		case mage.Deb, mage.RPM:
 			delete(args.Spec.Files, "/etc/{{.BeatName}}/{{.BeatName}}.reference.yml")
