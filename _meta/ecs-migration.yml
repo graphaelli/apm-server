@@ -59,8 +59,14 @@
 - from: context.system.platform
   to: host.os.platform
 
+  #There is a conflict with `context.http.status_code` (concerning spans).
+  #How about we stop writing to this field and write to `context.response.status_code` instead?
+  #This is a potential breaking change. 
+- from: context.response.status_code
+  to: http.response.status_code
+
 - from: context.request.method
-  to: http.method
+  to: http.request.method
 
 - from: context.request.http_version
   to: http.version
@@ -155,6 +161,13 @@
 - from: context.user.username
   to: user.name
 
+- from: context.user.ip
+  to: user.ip
+
+  # open PR: https://github.com/elastic/ecs/pull/240/files
+- from: context.user.user-agent
+  to: user_agent.original
+
 - from: docker.container.id
   to: container.id
 
@@ -163,3 +176,6 @@
 
 - from: docker.container.name
   to: container.name
+
+- from: context.response.finished
+  to: response.finished
