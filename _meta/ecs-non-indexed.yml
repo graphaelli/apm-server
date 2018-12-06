@@ -1,0 +1,59 @@
+#The ECS migration also concerns non-indexed fields. Those fields don't need to be aliased or copied, as non indexed fields cannot be used in queries or aggregations anyways. They will be stored at ECS compliant locations from 7.0 on, and not be changed in 6.x. The UI will display the information wherever it is stored, as long as the UI is aware of the root keys. 
+#It is important to create the mapping to ensure nothing is conflicting with indexed fields.
+
+  # In case the agent devs don't use this in the future we could also name it `user-defined`
+- from: context.custom
+  to: custom
+
+  # This is concerning, as the body could be an http body or not.
+  # Could the agents either send an `request.body` or an `http.body` so we can properly distinguish?
+- from: context.request.body
+  to: request.body
+
+- from: context.request.env
+  to: request.env
+
+- from: context.request.socket
+  to: request.socket
+
+  # Could be conflicting with future ECS cookie information
+- from: context.request.headers.cookie
+  to: http.request.headers.cookies.raw
+
+- from: context.request.cookies
+  to: http.headers.cookies.parsed
+
+- from: context.db.instance
+  to: database.instance
+
+- from: context.db.statement
+  to: database.statement
+
+- from: context.db.type
+  to: database.type
+
+- from: context.db.user
+  to: database.user
+
+  # `http.request.method` is also used as alias to `context.request.method`
+  # If conflicting we could store `context.http.method` as `context.request.method`.
+- from: context.http.method
+  to: http.request.method
+
+  # `url.original` is also used as alias to `context.request.url.raw`
+  # If conflicting we could store `context.http.url` as `context.request.url.raw`.
+- from: context.http.url
+  to: url.original
+
+- from: context.response.headers.content-type
+  to: http.response.headers.content-type
+
+- from: context.response.headers_sent
+  to: http.response.headers.sent
+
+- from: context.request.headers.user-agent
+  to: http.request.headers.user-agent
+
+- from: context.process.argv
+  to: process.args
+
