@@ -30,7 +30,9 @@
         Any arbitrary contextual information regarding the event, captured by the agent, optionally provided by the user.
       dynamic: false
       fields:
-
+        - name: custom
+          type: object
+          enabled: false
         - name: tags
           type: object
           object_type: keyword

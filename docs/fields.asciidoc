@@ -79,6 +79,13 @@ Any arbitrary contextual information regarding the event, captured by the agent,
 
 
 
+*`context.custom`*::
++
+--
+type: object
+
+--
+
 *`context.tags`*::
 +
 --
