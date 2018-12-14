@@ -144,11 +144,7 @@ func loadConfigWithDefaults(config *ilmConfig, b *Beat) {
 }
 
 func checkElasticsearchVersionIlm(client *elasticsearch.Client) error {
-	esVer := client.GetVersion()
-	esV, err := common.NewVersion(esVer)
-	if err != nil {
-		return err
-	}
+	esV := client.GetVersion()
 
 	requiredVersion, err := common.NewVersion("6.6.0")
 	if err != nil {
