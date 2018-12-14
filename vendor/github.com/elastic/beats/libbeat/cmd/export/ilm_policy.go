@@ -21,17 +21,15 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-
-	"github.com/elastic/beats/libbeat/cmd/instance"
 )
 
 // GenGetILMPolicyCmd is the command used to export the ilm policy.
 func GenGetILMPolicyCmd() *cobra.Command {
 	genTemplateConfigCmd := &cobra.Command{
 		Use:   "ilm-policy",
-		Short: "Export ILM policy",
+		Short: "Export ILM policies",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println(instance.ILMPolicy.StringToPrint())
+			fmt.Println("TODO: export ilm policies")
 		},
 	}
 
