@@ -3,6 +3,7 @@ package ilm
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
 
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
@@ -75,6 +76,11 @@ func (l *Loader) LoadPolicies() error {
 	return nil
 }
 
+func replaceVersion(pattern, version string) string {
+	re := regexp.MustCompile("%.*{.*beat.version.?}")
+	return re.ReplaceAllLiteralString(pattern, version)
+}
+
 func (l *Loader) LoadWriteAlias() error {
 	// Check that ILM is enabled and the right elasticsearch version exists
 	if err := ilmEnabled(l.esClient); err != nil {
@@ -87,10 +93,10 @@ func (l *Loader) LoadWriteAlias() error {
 
 	for _, policyCfg := range l.ilmPolicyConfigs {
 		//TODO: check index name
-		rolloverAlias := policyCfg.idxName
+		rolloverAlias := replaceVersion(policyCfg.idxName, l.esVersion.String())
 
 		// TODO: either remove or let pattern be configurable. This always assume it's a date pattern by sourrounding it by <...>
-		firstIndex := fmt.Sprintf("%%3C%s-%s%%3E", rolloverAlias, pattern)
+		firstIndex := fmt.Sprintf("%s-%s", rolloverAlias, pattern)
 
 		// Check if alias already exists
 		status, b, err := l.esClient.Request("HEAD", "/_alias/"+rolloverAlias, "", nil, nil)
