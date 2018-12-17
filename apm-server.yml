@@ -406,33 +406,34 @@ output.elasticsearch:
   # * `setup.dashboards.index`
   #index: "apm-%{[beat.version]}-%{+yyyy.MM.dd}"
   indices:
-    - index: "apm-%{[beat.version]}-sourcemap"
-      when.contains:
-        processor.event: "sourcemap"
+  - index: "apm-%{[beat.version]}-sourcemap"
+    when.contains:
+      processor.event: "sourcemap"
 
-    - index: "apm-%{[beat.version]}-error"
-      rollover_policy: "shortterm"
-      when.contains:
-        processor.event: "error"
+  - index: "apm-%{[beat.version]}-error"
+    when.contains:
+      processor.event: "error"
+    rollover_policy: "shortterm"
 
-    - index: "apm-%{[beat.version]}-transaction"
-      rollover_policy: "longterm"
-      when.contains:
-        processor.event: "transaction"
+  - index: "apm-%{[beat.version]}-transaction"
+    when.contains:
+      processor.event: "transaction"
+    rollover_policy: "longterm"
 
-    - index: "apm-%{[beat.version]}-span"
-      rollover_policy: "shortterm"
-      when.contains:
-        processor.event: "span"
+  - index: "apm-%{[beat.version]}-span"
+    when.contains:
+      processor.event: "span"
+    rollover_policy: "shortterm"
 
-    - index: "apm-%{[beat.version]}-metric"
-      rollover_policy: "longterm"
-      when.contains:
-        processor.event: "metric"
+  - index: "apm-%{[beat.version]}-metric"
+    when.contains:
+      processor.event: "metric"
+    rollover_policy: "longterm"
 
-    - index: "apm-%{[beat.version]}-onboarding"
-      when.contains:
-        processor.event: "onboarding"
+  - index: "apm-%{[beat.version]}-onboarding}"
+    when.contains:
+      processor.event: "onboarding"
+
 
   # A pipeline is a definition of processors applied to documents when writing them to Elasticsearch.
   # APM Server comes with a default pipeline definition, located at `ingets/pipeline/definition.json`.

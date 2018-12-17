@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"regexp"
+	"strings"
 
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/common"
@@ -29,6 +30,10 @@ type ilmPolicyCfg struct {
 	policyName string
 }
 
+func newIlmPolicyCfg(idxName, policyName string, info beat.Info) ilmPolicyCfg{
+	return ilmPolicyCfg{idxName:replaceVersion(strings.ToLower(idxName), info.Version), policyName:policyName}
+}
+
 const pattern = "000001"
 
 // NewESLoader creates a new Elasticsearch ilm policy loader
@@ -45,13 +50,13 @@ func NewESLoader(outCfg *common.Config, client ESClient, beatInfo beat.Info) (*L
 	}
 	var ilmPolicyConfigs []ilmPolicyCfg
 	if esCfg.Index != "" && esCfg.RolloverPolicy != "" {
-		ilmPolicyConfigs = append(ilmPolicyConfigs, ilmPolicyCfg{idxName: esCfg.Index, policyName: esCfg.RolloverPolicy})
+		ilmPolicyConfigs = append(ilmPolicyConfigs, newIlmPolicyCfg(esCfg.Index, esCfg.RolloverPolicy, beatInfo))
 	}
 	if esCfg.Indices != nil {
 		for _, idxCfg := range esCfg.Indices {
 			if policy, ok := idxCfg["rollover_policy"]; ok {
 				//TODO: check if error checks necessary
-				ilmPolicyConfigs = append(ilmPolicyConfigs, ilmPolicyCfg{idxName: idxCfg["index"].(string), policyName: policy.(string)})
+				ilmPolicyConfigs = append(ilmPolicyConfigs, newIlmPolicyCfg(idxCfg["index"].(string), policy.(string), beatInfo))
 			}
 		}
 	}
@@ -93,7 +98,7 @@ func (l *Loader) LoadWriteAlias() error {
 
 	for _, policyCfg := range l.ilmPolicyConfigs {
 		//TODO: check index name
-		rolloverAlias := replaceVersion(policyCfg.idxName, l.esVersion.String())
+		rolloverAlias := policyCfg.idxName
 
 		// TODO: either remove or let pattern be configurable. This always assume it's a date pattern by sourrounding it by <...>
 		firstIndex := fmt.Sprintf("%s-%s", rolloverAlias, pattern)
@@ -134,7 +139,8 @@ func (l *Loader) LoadWriteAlias() error {
 
 		//register additional template
 		ilmTemplate := createILMTemplate(policyCfg)
-		templateLoader, err := template.NewESLoader(&common.Config{}, l.esClient, l.beatInfo)
+		cfg := common.NewConfig()
+		templateLoader, err := template.NewESLoader(cfg, l.esClient, l.beatInfo)
 		if err != nil {
 			logp.Err("Error loading template for alias: %s, %s", policyCfg.idxName, err)
 			continue
