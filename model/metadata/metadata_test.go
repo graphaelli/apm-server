@@ -133,13 +133,15 @@ func TestMetadataMerge(t *testing.T) {
 				&User{Id: &uid, Email: &mail},
 			),
 			output: common.MapStr{
-				"service": common.MapStr{
-					"name":  "myservice",
-					"agent": common.MapStr{"version": "1.0.0", "name": "elastic-node"},
+				"context": common.MapStr{
+					"service": common.MapStr{
+						"name":  "myservice",
+						"agent": common.MapStr{"version": "1.0.0", "name": "elastic-node"},
+					},
+					"process": common.MapStr{"pid": pid},
+					"user":    common.MapStr{"id": "12321", "email": "user@email.com"},
 				},
-				"system":  common.MapStr{"hostname": host},
-				"process": common.MapStr{"pid": pid},
-				"user":    common.MapStr{"id": "12321", "email": "user@email.com"},
+				"host": common.MapStr{"hostname": host},
 			},
 		},
 		{
@@ -162,18 +164,20 @@ func TestMetadataMerge(t *testing.T) {
 				},
 			},
 			output: common.MapStr{
-				"foo": "bar",
-				"service": common.MapStr{
-					"name":  "myservice",
-					"agent": common.MapStr{"version": "1.0.0", "name": "elastic-node"},
+				"host": common.MapStr{"hostname": host},
+				"context": common.MapStr{
+					"foo": "bar",
+					"service": common.MapStr{
+						"name":  "myservice",
+						"agent": common.MapStr{"version": "1.0.0", "name": "elastic-node"},
+					},
+					"process": common.MapStr{"pid": pid},
+					"user":    common.MapStr{"id": "12321", "email": "override@email.com"},
 				},
-				"system":  common.MapStr{"hostname": host},
-				"process": common.MapStr{"pid": pid},
-				"user":    common.MapStr{"id": "12321", "email": "override@email.com"},
 			},
 		},
 	} {
-		assert.Equal(t, test.output, test.input.Merge(test.mergeContext))
+		assert.Equal(t, test.output, test.input.Merge(nil, test.mergeContext))
 	}
 }
 

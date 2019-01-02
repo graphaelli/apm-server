@@ -98,7 +98,10 @@ func getMetadataEventAttrs(t *testing.T, prefix string) *tests.Set {
 func TestMetadataPayloadAttrsMatchFields(t *testing.T) {
 	setup := metadataProcSetup()
 	eventFields := getMetadataEventAttrs(t, "context")
-	allowedNotInFields := tests.NewSet("context.process.argv")
+	allowedNotInFields := tests.NewSet(
+		"context.process.argv",
+		tests.Group("context.system"),
+	)
 	setup.EventFieldsInTemplateFields(t, eventFields, allowedNotInFields)
 }
 
@@ -122,6 +125,7 @@ func TestKeywordLimitationOnMetadataAttrs(t *testing.T) {
 		),
 		map[string]string{
 			"context.": "",
+			"host.":    "system.",
 		},
 	)
 }

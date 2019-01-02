@@ -101,15 +101,18 @@ func (m *Metadata) normalizeContext(eventContext common.MapStr) common.MapStr {
 	}
 }
 
-func (m *Metadata) Merge(eventContext common.MapStr) common.MapStr {
+func (m *Metadata) Merge(dst common.MapStr, eventContext common.MapStr) common.MapStr {
+	if dst == nil {
+		dst = common.MapStr{}
+	}
 	eventContext = m.normalizeContext(eventContext)
-
-	utility.Add(eventContext, "system", m.systemFields)
 	utility.Add(eventContext, "process", m.processFields)
+	utility.Add(eventContext, "service", m.serviceFields)
 	utility.MergeAdd(eventContext, "user", m.userFields)
-	utility.MergeAdd(eventContext, "service", m.serviceFields)
+	utility.Add(dst, "context", eventContext)
+	utility.MergeAdd(dst, "host", m.systemFields)
 
-	return eventContext
+	return dst
 }
 
 func (m *Metadata) MergeMinimal(eventContext common.MapStr) common.MapStr {

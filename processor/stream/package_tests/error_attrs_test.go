@@ -50,8 +50,9 @@ func errorPayloadAttrsNotInFields() *tests.Set {
 func errorFieldsNotInPayloadAttrs() *tests.Set {
 	return tests.NewSet(
 		"listening", "view errors", "error id icon",
-		"context.user.user-agent", "context.user.ip", "context.system.ip",
+		"context.user.user-agent", "context.user.ip",
 		"context.http", "context.http.status_code",
+		"host.ip",
 	)
 }
 
@@ -114,8 +115,8 @@ func errorKeywordExceptionKeys() *tests.Set {
 		"context.tags",
 		"view errors", "error id icon",
 		tests.Group("context.service"),
-		tests.Group("context.system"),
 		tests.Group("context.process"),
+		tests.Group("host"),
 	)
 }
 

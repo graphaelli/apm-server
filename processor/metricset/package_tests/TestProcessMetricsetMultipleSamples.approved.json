@@ -27,14 +27,14 @@
                     },
                     "version": "6.x"
                 },
-                "system": {
-                    "architecture": "amd64",
-                    "ip": "127.0.0.1",
-                    "platform": "darwin"
-                },
                 "tags": {
                     "url": "/foo"
                 }
+            },
+            "host": {
+                "architecture": "amd64",
+                "ip": "127.0.0.1",
+                "platform": "darwin"
             },
             "http": {
                 "requests": 1
@@ -71,14 +71,14 @@
                     },
                     "version": "6.x"
                 },
-                "system": {
-                    "architecture": "amd64",
-                    "ip": "127.0.0.1",
-                    "platform": "darwin"
-                },
                 "tags": {
                     "url": "/bar"
                 }
+            },
+            "host": {
+                "architecture": "amd64",
+                "ip": "127.0.0.1",
+                "platform": "darwin"
             },
             "http": {
                 "requests": 6
@@ -115,14 +115,14 @@
                     },
                     "version": "6.x"
                 },
-                "system": {
-                    "architecture": "amd64",
-                    "ip": "127.0.0.1",
-                    "platform": "darwin"
-                },
                 "tags": {
                     "url": "/foo"
                 }
+            },
+            "host": {
+                "architecture": "amd64",
+                "ip": "127.0.0.1",
+                "platform": "darwin"
             },
             "http": {
                 "requests": 2
@@ -158,12 +158,12 @@
                         "version": "go1.10.1"
                     },
                     "version": "6.x"
-                },
-                "system": {
-                    "architecture": "amd64",
-                    "ip": "127.0.0.1",
-                    "platform": "darwin"
                 }
+            },
+            "host": {
+                "architecture": "amd64",
+                "ip": "127.0.0.1",
+                "platform": "darwin"
             },
             "http": {
                 "requests": 10

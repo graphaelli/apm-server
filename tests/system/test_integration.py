@@ -161,7 +161,7 @@ class RumEnabledIntegrationTest(ClientSideElasticTest):
         rs = self.es.search(index=self.index_name, body={
             "query": {"term": {"processor.event": "transaction"}}})
 
-        assert "ip" in rs['hits']['hits'][0]["_source"]["context"]["system"], rs['hits']
+        assert "ip" in rs['hits']['hits'][0]["_source"]["host"], rs['hits']
 
     @unittest.skipUnless(INTEGRATION_TESTS, "integration test")
     def test_enrich_rum_event(self):

@@ -13,12 +13,6 @@
                     },
                     "name": "service1"
                 },
-                "system": {
-                    "architecture": "x64",
-                    "hostname": "prod1.example.com",
-                    "ip": "127.0.0.1",
-                    "platform": "darwin"
-                },
                 "user": {
                     "username": "just me"
                 }
@@ -28,6 +22,12 @@
                 "log": {
                     "message": ""
                 }
+            },
+            "host": {
+                "architecture": "x64",
+                "hostname": "prod1.example.com",
+                "ip": "127.0.0.1",
+                "platform": "darwin"
             },
             "processor": {
                 "event": "error",

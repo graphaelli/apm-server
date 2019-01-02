@@ -12,9 +12,6 @@
                         "name": "ecmascript"
                     },
                     "name": "1234_service-12a3"
-                },
-                "system": {
-                    "ip": "192.0.0.1"
                 }
             },
             "error": {
@@ -24,6 +21,9 @@
                     "level": "custom log level",
                     "message": "Cannot read property 'baz' of undefined"
                 }
+            },
+            "host": {
+                "ip": "192.0.0.1"
             },
             "processor": {
                 "event": "error",
@@ -45,9 +45,6 @@
                         "name": "ecmascript"
                     },
                     "name": "1234_service-12a3"
-                },
-                "system": {
-                    "ip": "192.0.0.1"
                 }
             },
             "go": {
@@ -58,6 +55,9 @@
                         }
                     }
                 }
+            },
+            "host": {
+                "ip": "192.0.0.1"
             },
             "processor": {
                 "event": "metric",

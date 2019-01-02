@@ -33,17 +33,17 @@
                     },
                     "version": "5.1.3"
                 },
-                "system": {
-                    "architecture": "x64",
-                    "hostname": "prod1.example.com",
-                    "ip": "192.0.0.1",
-                    "platform": "darwin"
-                },
                 "user": {
                     "email": "s@test.com",
                     "id": "123",
                     "username": "john"
                 }
+            },
+            "host": {
+                "architecture": "x64",
+                "hostname": "prod1.example.com",
+                "ip": "192.0.0.1",
+                "platform": "darwin"
             },
             "processor": {
                 "event": "transaction",
@@ -142,17 +142,17 @@
                     },
                     "version": "5.1.3"
                 },
-                "system": {
-                    "architecture": "x64",
-                    "hostname": "prod1.example.com",
-                    "ip": "192.0.0.1",
-                    "platform": "darwin"
-                },
                 "user": {
                     "email": "s@test.com",
                     "id": "123",
                     "username": "john"
                 }
+            },
+            "host": {
+                "architecture": "x64",
+                "hostname": "prod1.example.com",
+                "ip": "192.0.0.1",
+                "platform": "darwin"
             },
             "my-metric": 99,
             "processor": {

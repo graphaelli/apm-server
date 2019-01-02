@@ -281,53 +281,6 @@ A boolean indicating whether the response was finished or not.
 --
 
 [float]
-== system fields
-
-Optional system fields.
-
-
-
-*`context.system.hostname`*::
-+
---
-type: keyword
-
-The hostname of the system the event was recorded on.
-
-
---
-
-*`context.system.architecture`*::
-+
---
-type: keyword
-
-The architecture of the system the event was recorded on.
-
-
---
-
-*`context.system.platform`*::
-+
---
-type: keyword
-
-The platform of the system the event was recorded on.
-
-
---
-
-*`context.system.ip`*::
-+
---
-type: ip
-
-IP of the host that records the event.
-
-
---
-
-[float]
 == process fields
 
 Information pertaining to the running process where the data was collected
@@ -483,6 +436,53 @@ Name of the agent used.
 type: keyword
 
 Version of the agent used.
+
+
+--
+
+[float]
+== host fields
+
+Optional host fields.
+
+
+
+*`host.hostname`*::
++
+--
+type: keyword
+
+The hostname of the system the event was recorded on.
+
+
+--
+
+*`host.architecture`*::
++
+--
+type: keyword
+
+The architecture of the system the event was recorded on.
+
+
+--
+
+*`host.platform`*::
++
+--
+type: keyword
+
+The platform of the system the event was recorded on.
+
+
+--
+
+*`host.ip`*::
++
+--
+type: ip
+
+IP of the host that records the event.
 
 
 --

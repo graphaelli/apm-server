@@ -115,13 +115,13 @@
                     "headers_sent": true,
                     "finished": true,
                     "status_code": 200
-                },
-                "system": {
-                    "architecture": "x64",
-                    "hostname": "prod1.example.com",
-                    "platform": "darwin",
-                    "ip": "127.0.0.1"
                 }
+            },
+            "host": {
+                "architecture": "x64",
+                "hostname": "prod1.example.com",
+                "platform": "darwin",
+                "ip": "127.0.0.1"
             },
             "transaction": {
                 "type": "request",
@@ -196,13 +196,13 @@
                     "pid": 1234,
                     "title": "node",
                     "ppid": 6789
-                },
-                "system": {
-                    "architecture": "x64",
-                    "hostname": "prod1.example.com",
-                    "platform": "darwin",
-                    "ip": "127.0.0.1"
                 }
+            },
+            "host": {
+                "architecture": "x64",
+                "hostname": "prod1.example.com",
+                "platform": "darwin",
+                "ip": "127.0.0.1"
             },
             "transaction": {
                 "type": "request",
@@ -259,12 +259,6 @@
                     },
                     "environment": "staging"
                 },
-                "system": {
-                    "architecture": "x64",
-                    "ip": "127.0.0.1",
-                    "hostname": "prod1.example.com",
-                    "platform": "darwin"
-                },
                 "process": {
                     "argv": [
                         "node",
@@ -274,6 +268,12 @@
                     "title": "node",
                     "ppid": 6789
                 }
+            },
+            "host": {
+                "architecture": "x64",
+                "ip": "127.0.0.1",
+                "hostname": "prod1.example.com",
+                "platform": "darwin"
             },
             "transaction": {
                 "type": "request",
@@ -325,12 +325,6 @@
                     },
                     "name": "1234_service-12a3"
                 },
-                "system": {
-                    "architecture": "x64",
-                    "hostname": "prod1.example.com",
-                    "platform": "darwin",
-                    "ip": "127.0.0.1"
-                },
                 "process": {
                     "argv": [
                         "node",
@@ -340,6 +334,12 @@
                     "title": "node",
                     "ppid": 6789
                 }
+            },
+            "host": {
+                "architecture": "x64",
+                "hostname": "prod1.example.com",
+                "platform": "darwin",
+                "ip": "127.0.0.1"
             },
             "transaction": {
                 "type": "request",

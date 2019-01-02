@@ -93,11 +93,6 @@
             },
             "version": "5.1.3"
         },
-        "system": {
-            "architecture": "x64",
-            "hostname": "prod1.example.com",
-            "platform": "darwin"
-        },
         "tags": {
             "organization_uuid": "9f0e9d64-c185-4d21-a6f4-4673ed561ec8"
         },
@@ -106,6 +101,11 @@
             "id": "99",
             "username": "foo"
         }
+    },
+    "host": {
+        "architecture": "x64",
+        "hostname": "prod1.example.com",
+        "platform": "darwin"
     },
     "processor": {
         "event": "transaction",

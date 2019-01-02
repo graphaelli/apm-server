@@ -24,12 +24,6 @@
                     ],
                     "title": "node"
                 },
-                "system": {
-                    "platform": "darwin",
-                    "hostname": "prod1.example.com",
-                    "architecture": "x64",
-                    "ip": "127.0.0.1"
-                },
                 "service": {
                     "name": "1234_service-12a3",
                     "language": {
@@ -58,6 +52,12 @@
                 },
                 "grouping_key": "18f82051862e494727fa20e0adc15711",
                 "id": "7f0e9d68-c185-4d21-a6f4-4673ed561ec8"
+            },
+            "host": {
+                "platform": "darwin",
+                "hostname": "prod1.example.com",
+                "architecture": "x64",
+                "ip": "127.0.0.1"
             }
         },
         "_index": "test-apm-12-12-2017"
@@ -147,12 +147,6 @@
                         "GATEWAY_INTERFACE": "CGI/1.1"
                     },
                     "method": "POST"
-                },
-                "system": {
-                    "platform": "darwin",
-                    "hostname": "prod1.example.com",
-                    "architecture": "x64",
-                    "ip": "127.0.0.1"
                 },
                 "custom": {
                     "and_objects": {
@@ -321,6 +315,12 @@
                     "level": "warning"
                 }
             },
+            "host": {
+                "platform": "darwin",
+                "hostname": "prod1.example.com",
+                "architecture": "x64",
+                "ip": "127.0.0.1"
+            },
             "processor": {
                 "name": "error",
                 "event": "error"
@@ -353,12 +353,6 @@
                     ],
                     "title": "node"
                 },
-                "system": {
-                    "platform": "darwin",
-                    "hostname": "prod1.example.com",
-                    "architecture": "x64",
-                    "ip": "127.0.0.1"
-                },
                 "service": {
                     "name": "1234_service-12a3",
                     "language": {
@@ -388,6 +382,12 @@
                 },
                 "grouping_key": "f6b5a2877d9b00d5b32b44c9db039f11",
                 "id": "8f0e9d68-c185-4d21-a6f4-4673ed561ec8"
+            },
+            "host": {
+                "platform": "darwin",
+                "hostname": "prod1.example.com",
+                "architecture": "x64",
+                "ip": "127.0.0.1"
             }
         },
         "_index": "test-apm-12-12-2017"
@@ -416,12 +416,6 @@
                         "server.js"
                     ],
                     "title": "node"
-                },
-                "system": {
-                    "platform": "darwin",
-                    "hostname": "prod1.example.com",
-                    "architecture": "x64",
-                    "ip": "127.0.0.1"
                 },
                 "service": {
                     "name": "1234_service-12a3",
@@ -452,6 +446,12 @@
                     "message": "Cannot read property 'baz' of undefined",
                     "level": "custom log level"
                 }
+            },
+            "host": {
+                "platform": "darwin",
+                "hostname": "prod1.example.com",
+                "architecture": "x64",
+                "ip": "127.0.0.1"
             }
         },
         "_index": "test-apm-12-12-2017"

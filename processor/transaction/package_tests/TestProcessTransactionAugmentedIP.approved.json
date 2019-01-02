@@ -9,10 +9,10 @@
                         "version": "1.0"
                     },
                     "name": "service1"
-                },
-                "system": {
-                    "ip": "127.0.0.1"
                 }
+            },
+            "host": {
+                "ip": "127.0.0.1"
             },
             "processor": {
                 "event": "transaction",

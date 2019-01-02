@@ -25,11 +25,6 @@
             },
             "version": "6.x"
         },
-        "system": {
-            "architecture": "amd64",
-            "ip": "127.0.0.1",
-            "platform": "darwin"
-        },
         "tags": {
             "code": "200",
             "some.other.code": "abc"
@@ -42,6 +37,11 @@
     },
     "double_gauge": 3.141592653589793,
     "float_gauge": 9.16,
+    "host": {
+        "architecture": "amd64",
+        "ip": "127.0.0.1",
+        "platform": "darwin"
+    },
     "integer_gauge": 42767,
     "long_gauge": 3147483648,
     "negative": {

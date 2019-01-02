@@ -167,7 +167,7 @@ func (me *Metricset) Transform(tctx *transform.Context) []beat.Event {
 		context["tags"] = me.Tags
 	}
 
-	fields["context"] = tctx.Metadata.Merge(context)
+	tctx.Metadata.Merge(fields, context)
 	fields["processor"] = processorEntry
 
 	if me.Timestamp.IsZero() {

@@ -328,15 +328,15 @@ func TestEventsTransformWithMetadata(t *testing.T) {
 			"sampled":  true,
 		},
 		"context": common.MapStr{
-			"system": common.MapStr{
-				"hostname":     hostname,
-				"architecture": architecture,
-				"platform":     platform,
-			},
 			"service": common.MapStr{
 				"name":  "myservice",
 				"agent": common.MapStr{"name": "", "version": ""},
 			},
+		},
+		"host": common.MapStr{
+			"hostname":     hostname,
+			"architecture": architecture,
+			"platform":     platform,
 		},
 	}
 	txWithContext := Event{Timestamp: timestamp, Context: common.MapStr{"foo": "bar", "user": common.MapStr{"id": "55"}}}
@@ -357,11 +357,11 @@ func TestEventsTransformWithMetadata(t *testing.T) {
 				"name":  "myservice",
 				"agent": common.MapStr{"name": "", "version": ""},
 			},
-			"system": common.MapStr{
-				"hostname":     "a.b.c",
-				"architecture": "darwin",
-				"platform":     "x64",
-			},
+		},
+		"host": common.MapStr{
+			"hostname":     "a.b.c",
+			"architecture": "darwin",
+			"platform":     "x64",
 		},
 	}
 

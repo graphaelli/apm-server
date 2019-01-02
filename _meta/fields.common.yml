@@ -152,32 +152,6 @@
             description: >
               A boolean indicating whether the response was finished or not.
 
-        - name: system
-          type: group
-          description: >
-            Optional system fields.
-          fields:
-
-            - name: hostname
-              type: keyword
-              description: >
-                The hostname of the system the event was recorded on.
-
-            - name: architecture
-              type: keyword
-              description: >
-                The architecture of the system the event was recorded on.
-
-            - name: platform
-              type: keyword
-              description: >
-                The platform of the system the event was recorded on.
-
-            - name: ip
-              type: ip
-              description: >
-                IP of the host that records the event.
-
         - name: process
           type: group
           description: >
@@ -281,6 +255,36 @@
                 type: keyword
                 description: >
                   Version of the agent used.
+
+
+    - name: host
+      type: group
+      description: >
+        Optional host fields.
+      fields:
+
+        - name: hostname
+          type: keyword
+          description: >
+            The hostname of the system the event was recorded on.
+          overwrite: true
+
+        - name: architecture
+          type: keyword
+          description: >
+            The architecture of the system the event was recorded on.
+          overwrite: true
+
+        - name: platform
+          type: keyword
+          description: >
+            The platform of the system the event was recorded on.
+
+        - name: ip
+          type: ip
+          description: >
+            IP of the host that records the event.
+          overwrite: true
 
     - name: transaction
       type: group

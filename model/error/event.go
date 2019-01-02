@@ -194,9 +194,9 @@ func (e *Event) Transform(tctx *transform.Context) []beat.Event {
 
 	fields := common.MapStr{
 		"error":     e.fields(tctx),
-		"context":   tctx.Metadata.Merge(e.Context),
 		"processor": processorEntry,
 	}
+	tctx.Metadata.Merge(fields, e.Context)
 
 	if e.TransactionSampled != nil || (e.TransactionId != nil && *e.TransactionId != "") {
 		transaction := common.MapStr{}

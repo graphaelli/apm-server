@@ -48,7 +48,7 @@ func payloadAttrsNotInFields(s *tests.Set) *tests.Set {
 func fieldsNotInPayloadAttrs(s *tests.Set) *tests.Set {
 	return tests.Union(s, tests.NewSet(
 		"listening", "view errors", "error id icon",
-		"context.user.user-agent", "context.user.ip", "context.system.ip",
+		"context.user.user-agent", "context.user.ip", "host.ip",
 		"context.http", "context.http.status_code",
 		tests.Group("timestamp"),
 	))
@@ -107,7 +107,7 @@ func keywordExceptionKeys(s *tests.Set) *tests.Set {
 
 func templateToSchemaMapping(mapping map[string]string) map[string]string {
 	return map[string]string{
-		"context.system.":  "system.",
+		"host.":            "system.",
 		"context.process.": "process.",
 		"context.service.": "service.",
 		"context.request.": "errors.context.request.",
