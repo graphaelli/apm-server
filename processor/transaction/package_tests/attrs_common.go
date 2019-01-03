@@ -108,13 +108,16 @@ func keywordExceptionKeys(s *tests.Set) *tests.Set {
 
 func templateToSchemaMapping(mapping map[string]string) map[string]string {
 	base := map[string]string{
-		"context.process.": "process.",
-		"context.service.": "service.",
-		"context.request.": "transactions.context.request.",
-		"context.user.":    "transactions.context.user.",
-		"host.":            "system.",
-		"transaction.":     "transactions.",
-		"span":             "transactions.spans",
+		"context.process.":  "process.",
+		"context.service.":  "service.",
+		"context.request.":  "transactions.context.request.",
+		"context.user.":     "transactions.context.user.",
+		"host.architecture": "system.architecture",
+		"host.hostname":     "system.hostname",
+		"host.name":         "system.hostname",
+		"host.platform":     "system.platform",
+		"transaction.":      "transactions.",
+		"span":              "transactions.spans",
 	}
 	for k, v := range mapping {
 		base[k] = v

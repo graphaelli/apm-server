@@ -124,8 +124,11 @@ func TestKeywordLimitationOnMetadataAttrs(t *testing.T) {
 			tests.Group("trace"),
 		),
 		map[string]string{
-			"context.": "",
-			"host.":    "system.",
+			"context.":          "",
+			"host.name":         "system.hostname",
+			"host.hostname":     "system.hostname",
+			"host.architecture": "system.architecture",
+			"host.platform":     "system.platform",
 		},
 	)
 }

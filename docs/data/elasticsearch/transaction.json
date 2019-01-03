@@ -105,6 +105,7 @@
     "host": {
         "architecture": "x64",
         "hostname": "prod1.example.com",
+        "name": "prod1.example.com",
         "platform": "darwin"
     },
     "processor": {

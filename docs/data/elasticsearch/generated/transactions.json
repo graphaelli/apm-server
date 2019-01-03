@@ -38,6 +38,7 @@
                 "architecture": "x64",
                 "hostname": "prod1.example.com",
                 "ip": "192.0.0.1",
+                "name": "prod1.example.com",
                 "platform": "darwin"
             },
             "parent": {
@@ -174,6 +175,7 @@
                 "architecture": "x64",
                 "hostname": "prod1.example.com",
                 "ip": "192.0.0.1",
+                "name": "prod1.example.com",
                 "platform": "darwin"
             },
             "processor": {
@@ -241,6 +243,7 @@
                 "architecture": "x64",
                 "hostname": "prod1.example.com",
                 "ip": "192.0.0.1",
+                "name": "prod1.example.com",
                 "platform": "darwin"
             },
             "processor": {

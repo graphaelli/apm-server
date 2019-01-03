@@ -57,6 +57,7 @@ func TestSystemTransform(t *testing.T) {
 			},
 			Output: common.MapStr{
 				"hostname":     hostname,
+				"name":         hostname,
 				"architecture": architecture,
 				"platform":     platform,
 				"ip":           ip,
@@ -69,6 +70,7 @@ func TestSystemTransform(t *testing.T) {
 			},
 			Output: common.MapStr{
 				"hostname":     hostname,
+				"name":         hostname,
 				"architecture": architecture,
 			},
 		},

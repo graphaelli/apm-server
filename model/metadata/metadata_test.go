@@ -141,7 +141,7 @@ func TestMetadataMerge(t *testing.T) {
 					"process": common.MapStr{"pid": pid},
 					"user":    common.MapStr{"id": "12321", "email": "user@email.com"},
 				},
-				"host": common.MapStr{"hostname": host},
+				"host": common.MapStr{"hostname": host, "name": host},
 			},
 		},
 		{
@@ -164,7 +164,7 @@ func TestMetadataMerge(t *testing.T) {
 				},
 			},
 			output: common.MapStr{
-				"host": common.MapStr{"hostname": host},
+				"host": common.MapStr{"hostname": host, "name": host},
 				"context": common.MapStr{
 					"foo": "bar",
 					"service": common.MapStr{

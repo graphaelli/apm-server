@@ -335,6 +335,7 @@ func TestEventsTransformWithMetadata(t *testing.T) {
 		},
 		"host": common.MapStr{
 			"hostname":     hostname,
+			"name":         hostname,
 			"architecture": architecture,
 			"platform":     platform,
 		},
@@ -360,6 +361,7 @@ func TestEventsTransformWithMetadata(t *testing.T) {
 		},
 		"host": common.MapStr{
 			"hostname":     "a.b.c",
+			"name":         "a.b.c",
 			"architecture": "darwin",
 			"platform":     "x64",
 		},

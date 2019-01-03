@@ -57,6 +57,7 @@ func (s *System) fields() common.MapStr {
 	utility.Add(system, "hostname", s.Hostname)
 	utility.Add(system, "architecture", s.Architecture)
 	utility.Add(system, "platform", s.Platform)
+	utility.Add(system, "name", s.Hostname)
 	if s.IP != nil && *s.IP != "" {
 		utility.Add(system, "ip", s.IP)
 	}

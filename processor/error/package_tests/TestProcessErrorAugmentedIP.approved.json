@@ -27,6 +27,7 @@
                 "architecture": "x64",
                 "hostname": "prod1.example.com",
                 "ip": "127.0.0.1",
+                "name": "prod1.example.com",
                 "platform": "darwin"
             },
             "processor": {

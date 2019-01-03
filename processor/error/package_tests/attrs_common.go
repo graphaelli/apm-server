@@ -107,14 +107,17 @@ func keywordExceptionKeys(s *tests.Set) *tests.Set {
 
 func templateToSchemaMapping(mapping map[string]string) map[string]string {
 	return map[string]string{
-		"host.":            "system.",
-		"context.process.": "process.",
-		"context.service.": "service.",
-		"context.request.": "errors.context.request.",
-		"context.user.":    "errors.context.user.",
-		"span.":            "errors.spans.",
-		"error.":           "errors.",
-		"trace.id":         "errors.trace.id",
+		"context.process.":  "process.",
+		"context.service.":  "service.",
+		"context.request.":  "errors.context.request.",
+		"context.user.":     "errors.context.user.",
+		"host.architecture": "system.architecture",
+		"host.hostname":     "system.hostname",
+		"host.name":         "system.hostname",
+		"host.platform":     "system.platform",
+		"span.":             "errors.spans.",
+		"error.":            "errors.",
+		"trace.id":          "errors.trace.id",
 	}
 }
 

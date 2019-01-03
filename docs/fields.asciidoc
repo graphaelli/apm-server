@@ -447,6 +447,16 @@ Optional host fields.
 
 
 
+*`host.name`*::
++
+--
+type: keyword
+
+The name of the system the event was recorded on.  Typically equivalent to hostname.
+
+
+--
+
 *`host.hostname`*::
 +
 --
