@@ -64,9 +64,9 @@ class BaseTest(TestCase):
 
 
 class ServerSetUpBaseTest(BaseTest):
-    transactions_url = 'http://localhost:8200/v1/transactions'
-    errors_url = 'http://localhost:8200/v1/errors'
-    metrics_url = 'http://localhost:8200/v1/metrics'
+    transactions_url = 'http://localhost:8200/intake/v2/events'
+    errors_url = 'http://localhost:8200/intake/v2/events'
+    metrics_url = 'http://localhost:8200/intake/v2/events'
     expvar_url = 'http://localhost:8200/debug/vars'
 
     def config(self):
@@ -230,9 +230,11 @@ class ElasticTest(ServerBaseTest):
         if query_index is None:
             query_index = self.index_name
 
-        payload = json.loads(open(data_path).read())
-        r = requests.post(url, json=payload)
-        assert r.status_code == 202
+        with open(data_path) as f:
+            r = requests.post(url,
+                              data=f,
+                              headers={'content-type': 'application/x-ndjson'})
+        assert r.status_code == 202, r.status_code
 
         # make sure template is loaded
         self.wait_until(

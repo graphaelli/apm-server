@@ -5,11 +5,12 @@
         "_id": "IkU4C2IBWUGW2FxIExjw",
         "_source": {
             "transaction": {
-                "id": "945254c5-67a5-417e-8a4e-aa29efcbfb79"
+                "id": "945254c567a5417e"
             },
             "span": {
+                "hex_id": "2aaaaaaaaaaaaaaa",
                 "name": "GET /api/types",
-                "parent": 1,
+                "parent": 1464326035673006462,
                 "start": {
                     "us": 1845
                 },
@@ -17,7 +18,7 @@
                     "us": 3564
                 },
                 "type": "request",
-                "id": 2
+                "id": -6148914691236517206
             },
             "beat": {
                 "hostname": "40c010b36edc",
@@ -50,14 +51,16 @@
                 "id": "85925e55-b43f-4340-a8e0-df1906ecbfa9"
             },
             "span": {
+                "hex_id": "15aaaaaaaaaaaaaa",
                 "duration": {
                     "us": 3781
                 },
                 "start": {
                     "us": 2830
                 },
+                "parent": 401487038978671426,
                 "type": "db.postgresql.query",
-                "id": 15,
+                "id": -7662124166033003862,
                 "name": "SELECT FROM product_types"
             },
             "beat": {
@@ -94,11 +97,12 @@
         "_id": "I0U4C2IBWUGW2FxIExjw",
         "_source": {
             "transaction": {
-                "id": "945254c5-67a5-417e-8a4e-aa29efcbfb79"
+                "id": "945254c567a5417e"
             },
             "span": {
+                "hex_id": "3aaaaaaaaaaaaaaa",
                 "name": "GET /api/types",
-                "parent": 2,
+                "parent": 1464326035673006462,
                 "start": {
                     "us": 0
                 },
@@ -106,7 +110,7 @@
                     "us": 13980
                 },
                 "type": "request",
-                "id": 3
+                "id": -4995993186629670230
             },
             "beat": {
                 "hostname": "40c010b36edc",
@@ -136,9 +140,11 @@
         "_id": "IEU4C2IBWUGW2FxIExjw",
         "_source": {
             "transaction": {
-                "id": "945254c5-67a5-417e-8a4e-aa29efcbfb79"
+                "id": "945254c567a5417e"
             },
             "span": {
+                "hex_id": "0aaaaaaaaaaaaaaa",
+                "parent": 1464326035673006462,
                 "stacktrace": [
                     {
                         "function": "onread",
@@ -184,7 +190,7 @@
                     "us": 3781
                 },
                 "type": "db.postgresql.query",
-                "id": 0
+                "id": -8454757700450211158
             },
             "beat": {
                 "hostname": "40c010b36edc",
@@ -228,11 +234,12 @@
         "_id": "IUU4C2IBWUGW2FxIExjw",
         "_source": {
             "transaction": {
-                "id": "945254c5-67a5-417e-8a4e-aa29efcbfb79"
+                "id": "945254c567a5417e"
             },
             "span": {
+                "hex_id": "1aaaaaaaaaaaaaaa",
                 "name": "GET /api/types",
-                "parent": 0,
+                "parent": 1464326035673006462,
                 "start": {
                     "us": 0
                 },
@@ -240,7 +247,7 @@
                     "us": 32592
                 },
                 "type": "request",
-                "id": 1
+                "id": -7301836195843364182
             },
             "beat": {
                 "hostname": "40c010b36edc",
