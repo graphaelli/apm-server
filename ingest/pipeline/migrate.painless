@@ -15,8 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-ctx._index = ctx._index.replace(params.source_index_match, params.target_index_sub);
-ctx._type = "_doc";
+if (ctx.processor.event != "error") {
+    ctx._index = ctx._index.replace(params.source_index_match, params.target_index_sub);
+    ctx._type = "_doc";
+}
 
 // all
 // beat -> observer
@@ -30,7 +32,7 @@ ctx.remove("host");
 // TODO: more guards
 if (ctx.processor.event == "onboarding") {
   ctx.observer.listening = ctx.remove("listening");
-} else {
+} else if (ctx.processor.event == "span" || ctx.processor.event == "transaction") {
   //
   // giant else, apparently early return isn't supported
   //
