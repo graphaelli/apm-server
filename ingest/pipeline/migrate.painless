@@ -1,0 +1,162 @@
+// Licensed to Elasticsearch B.V. under one or more contributor
+// license agreements. See the NOTICE file distributed with
+// this work for additional information regarding copyright
+// ownership. Elasticsearch B.V. licenses this file to you under
+// the Apache License, Version 2.0 (the "License"); you may
+// not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
+ctx._index = ctx._index.replace(params.source_index_match, params.target_index_sub);
+ctx._type = "_doc";
+
+// all
+// beat -> observer
+def beat = ctx.remove("beat");
+if (beat != null) {
+    ctx.observer = beat
+}
+// remove host[.name]
+ctx.remove("host");
+
+// TODO: more guards
+if (ctx.processor.event == "onboarding") {
+  ctx.observer.listening = ctx.remove("listening");
+} else {
+  //
+  // giant else, apparently early return isn't supported
+  //
+
+  // make timestamp.us from @timestamp
+  // bump timestamp.us by span.start.us for spans
+  // shouldn't @timestamp this already be a Date?
+  def ts = ctx.get("@timestamp");
+  if (ts != null && !ctx.containsKey("timestamp")) {
+    ctx.timestamp = new HashMap();
+    ctx.timestamp.us = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(ts).getTime()*1000;
+    if (ctx.processor.event == "span") {
+      ctx.timestamp.us += ctx.span.start.us
+    }
+  }
+
+  // set trace.id and parent.id
+  if (ctx.transaction.containsKey("id")) {
+    // create a trace id from the transaction.id
+    // v1 transaction.id was a UUID, should have 122 random bits or so
+    ctx.trace = new HashMap();
+    ctx.trace.id = ctx.transaction.id.replace("-", "");
+
+    // set parent.id on errors and spans
+    if (ctx.processor.event == "error" || ctx.processor.event == "span") {
+      // was v1 parent ever used?
+      ctx.parent = ctx.trace;
+    }
+  }
+
+
+  HashMap context = ctx.remove("context");
+
+  // context.process -> process
+  if (context.containsKey("process")) {
+    ctx.process = context.remove("process");
+    ctx.process.args = ctx.process.remove("argv");
+  }
+
+  // context.request -> http & url
+  HashMap request = context.remove("request");
+  if (request != null) {
+    // context.request.http_version -> http.version
+    // context.request.method -> http.request.method
+    if (request.containsKey("http_version") || request.containsKey("method")) {
+      ctx.http = new HashMap();
+      if (request.containsKey("http_version")) {
+        ctx.http.version = request.remove("http_version");
+      }
+      if (request.containsKey("method")) {
+        ctx.http.request = new HashMap();
+        ctx.http.request.method = request.remove("method");
+      }
+    }
+    // context.request.url -> url
+    HashMap url = request.remove("url");
+    url.fragment = url.remove("hash");
+    url.domain = url.remove("hostname");
+    url.path = url.remove("pathname");
+    // TODO remove ;//
+    url.scheme = url.remove("protocol");
+    url.original = url.remove("raw");
+    url.query = url.remove("search");
+    request.url = url;
+
+    // XXX: body is not currently restored
+    def reqBody = request.remove("body");
+    if (reqBody != null) {
+      def body = new HashMap();
+      body.original = reqBody;
+      // TODO: figure out how to handle body - it can be a string or an object
+      //request.body = bodyContent;
+    }
+
+    // restore what is left of request, under http
+    ctx.http.request = request;
+  }
+
+  // context.service.agent -> agent
+  HashMap service = context.remove("service");
+  ctx.agent = service.remove("agent");
+
+  // context.service -> service
+  ctx.service = service;
+
+  // context.system -> host
+  def system = context.remove("system");
+  if (system != null) {
+    if (! system.containsKey("host")) {
+      system.host = new HashMap();
+    }
+    system.host.os = new HashMap();
+    system.host.os.platform = system.remove("platform");
+    ctx.host = system;
+  }
+
+  // context.tags -> labels
+  def tags = context.remove("tags");
+  if (tags != null) {
+    ctx.labels = tags;
+  }
+
+  // context.user -> user & user_agent
+  if (context.containsKey("user")) {
+    HashMap user = context.remove("user");
+    // context.user.ip -> client.ip
+    if (user.containsKey("ip")) {
+      ctx.client = new HashMap();
+      ctx.client.ip = user.remove("ip");
+    }
+    // context.user.user-agent -> user_agent.original.text
+    // XXX: untested
+    def ua = user.remove("user-agent");
+    if (ua != null) {
+      ctx.user_agent.original.text = ua
+    }
+    ctx.user = user;
+  }
+
+  // restore what is left of context
+  if (context.size() > 0) {
+    ctx.context = context;
+  }
+
+  // docker.container -> container
+  if (context.containsKey("docker")) {
+    ctx.container = ctx.remove("docker");
+  }
+}

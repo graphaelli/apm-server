@@ -20,6 +20,9 @@ package pipeline
 import (
 	"encoding/json"
 	"io/ioutil"
+	"path/filepath"
+
+	"github.com/elastic/beats/libbeat/version"
 
 	"github.com/elastic/beats/libbeat/logp"
 	es "github.com/elastic/beats/libbeat/outputs/elasticsearch"
@@ -32,6 +35,11 @@ func RegisterPipelines(esClient *es.Client, overwrite bool, path string) error {
 	if err != nil {
 		return err
 	}
+	migrate, err := loadMigrationPipeline(filepath.Join(filepath.Dir(path), "migrate.painless"))
+	if err != nil {
+		return err
+	}
+	pipelines = append(pipelines, *migrate)
 	var exists bool
 	for _, p := range pipelines {
 		if !overwrite {
@@ -68,4 +76,29 @@ func loadPipelinesFromJSON(path string) ([]pipeline, error) {
 	var pipelines []pipeline
 	err = json.Unmarshal(pipelineDef, &pipelines)
 	return pipelines, err
+}
+
+func loadMigrationPipeline(path string) (*pipeline, error) {
+	script, err := ioutil.ReadFile(paths.Resolve(paths.Home, path))
+	if err != nil {
+		return nil, err
+	}
+	return &pipeline{
+		Id: "apm-6.7.0-migrate-7.0.0",
+		Body: map[string]interface{}{
+			"description": "Migrate APM docs to 7.0.0",
+			"processors": []map[string]map[string]interface{}{
+				{
+					"script": {
+						"lang":   "painless",
+						"source": string(script),
+						"params": map[string]interface{}{
+							"source_index_match": "apm-" + version.GetDefaultVersion(),
+							"target_index_sub":   "apm-7.0.0",
+						},
+					},
+				},
+			},
+		},
+	}, nil
 }
