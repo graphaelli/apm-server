@@ -20,28 +20,53 @@ package beater
 import (
 	"context"
 	"crypto/tls"
+	"errors"
 	"net"
 	"net/http"
 
 	"go.elastic.co/apm"
 	"go.elastic.co/apm/module/apmhttp"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 	"golang.org/x/net/netutil"
+	"google.golang.org/grpc"
 
+	"github.com/elastic/apm-server/model"
 	"github.com/elastic/apm-server/publish"
 	"github.com/elastic/beats/libbeat/logp"
 	"github.com/elastic/beats/libbeat/outputs"
 	"github.com/elastic/beats/libbeat/version"
 )
 
+type grpcServer struct{}
+
+func (s *grpcServer) SendEvents(ctx context.Context, in *model.Metadata) (*model.EventsResponse, error) {
+	logp.NewLogger("server").Info("in send events")
+	return nil, errors.New("wtf")
+	//return &model.EventsResponse{}, nil
+}
+
 func newServer(config *Config, tracer *apm.Tracer, report publish.Reporter) *http.Server {
-	mux := newMuxer(config, report)
+	s := grpc.NewServer()
+	model.RegisterApmServer(s, &grpcServer{})
+
+	oldMux := apmhttp.Wrap(newMuxer(config, report),
+		apmhttp.WithServerRequestIgnorer(doNotTrace),
+		apmhttp.WithTracer(tracer),
+	)
+
+	mux := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.ProtoMajor == 2 {
+			logp.NewLogger("server").Info("grpc!")
+			s.ServeHTTP(w, r)
+		} else {
+			oldMux.ServeHTTP(w, r)
+		}
+	})
 
 	return &http.Server{
-		Addr: config.Host,
-		Handler: apmhttp.Wrap(mux,
-			apmhttp.WithServerRequestIgnorer(doNotTrace),
-			apmhttp.WithTracer(tracer),
-		),
+		Addr:           config.Host,
+		Handler:        h2c.NewHandler(mux, &http2.Server{}),
 		ReadTimeout:    config.ReadTimeout,
 		WriteTimeout:   config.WriteTimeout,
 		MaxHeaderBytes: config.MaxHeaderSize,

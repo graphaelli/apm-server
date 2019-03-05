@@ -18,6 +18,9 @@ MAGE_IMPORT_PATH=${BEAT_PATH}/vendor/github.com/magefile/mage
 
 .DEFAULT_GOAL := ${BEAT_NAME}
 
+model/metadata.pb.go: docs/spec/metadata.proto
+	protoc -I docs/spec --go_out=plugins=grpc:model docs/spec/metadata.proto
+
 # Path to the libbeat Makefile
 -include $(ES_BEATS)/libbeat/scripts/Makefile
 
