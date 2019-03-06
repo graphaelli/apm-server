@@ -1,0 +1,18 @@
+syntax = "proto3";
+package model;
+
+message Container {
+    string id = 1;
+}
+
+message Kubernetes {
+    string namespace = 1;
+}
+
+message System {
+    string architecture = 1;
+    string hostname = 2;
+    string platform = 3;
+    Container container = 4;
+    Kubernetes kubernetes = 5;
+}

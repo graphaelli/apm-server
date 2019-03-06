@@ -1,0 +1,32 @@
+syntax = "proto3";
+package model;
+
+message Agent {
+    string name = 1;
+    string version = 2;
+}
+
+message Framework {
+    string name = 1;
+    string version = 2;
+}
+
+message Language {
+    string name = 1;
+    string version = 2;
+}
+
+message Runtime {
+    string name = 1;
+    string version = 2;
+}
+
+message Service {
+    string name = 1;
+    string environment = 2;
+    string version = 3;
+    Agent agent = 4;
+    Framework framework = 5;
+    Language language = 6;
+    Runtime runtime = 7;
+}

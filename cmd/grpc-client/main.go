@@ -28,6 +28,10 @@ func main() {
 				Metadata: &model.Metadata{
 					Service: &model.Service{
 						Name: "service1",
+						Agent: &model.Agent{
+							Name:    "go-grpc",
+							Version: "0.0.1",
+						},
 					},
 				},
 			},
@@ -35,6 +39,7 @@ func main() {
 		{
 			Apm: &model.Event_Transaction{
 				Transaction: &model.Transaction{
+					Id:   "txid",
 					Name: "t1",
 				},
 			},
@@ -42,6 +47,7 @@ func main() {
 		{
 			Apm: &model.Event_Span{
 				Span: &model.Span{
+					Id:   "spanid",
 					Name: "s1",
 				},
 			},

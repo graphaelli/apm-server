@@ -1,34 +1,14 @@
 syntax = "proto3";
 package model;
 
-//import "google/protobuf/timestamp.proto";
-
-service Apm {
-    rpc Insert (stream Event) returns (InsertResponse) {}
-}
-
-message Service {
-    string name = 1;
-}
+import "service.proto";
+import "process.proto";
+import "system.proto";
+import "user.proto";
 
 message Metadata {
     Service service = 1;
+    Process process = 2;
+    System system = 3;
+    User user = 4;
 }
-
-message Transaction {
-    string name = 1;
-}
-
-message Span {
-    string name = 1;
-}
-
-message Event {
-    oneof apm {
-        Metadata metadata = 1;
-        Transaction transaction = 2;
-        Span span = 3;
-    }
-}
-
-message InsertResponse {}

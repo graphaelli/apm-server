@@ -1,0 +1,22 @@
+syntax = "proto3";
+package model;
+
+import "error.proto";
+import "metadata.proto";
+import "transaction.proto";
+import "span.proto";
+
+service Apm {
+    rpc Insert (stream Event) returns (InsertResponse) {}
+}
+
+message Event {
+    oneof apm {
+        Metadata metadata = 1;
+        Error error = 2;
+        Transaction transaction = 3;
+        Span span = 4;
+    }
+}
+
+message InsertResponse {}

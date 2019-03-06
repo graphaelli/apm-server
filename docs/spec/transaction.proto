@@ -1,0 +1,17 @@
+syntax = "proto3";
+package model;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+message Transaction {
+    google.protobuf.Timestamp timestamp = 1;
+    string id = 2;
+    string trace_id = 3;
+    string parent_id = 4;
+    google.protobuf.Duration duration = 5;
+    string name = 6;
+    string result = 7;
+    string type = 8;
+    bool sampled = 10;
+}

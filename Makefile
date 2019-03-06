@@ -21,12 +21,12 @@ MAGE_IMPORT_PATH=${BEAT_PATH}/vendor/github.com/magefile/mage
 .PHONY: all
 all: ${BEAT_NAME} grpc-client
 
-grpc-client: cmd/grpc-client/main.go model/metadata.pb.go
+grpc-client: cmd/grpc-client/main.go model/*.pb.go
 	go build -i ./cmd/grpc-client
 
-model/metadata.pb.go: docs/spec/metadata.proto
-	protoc -I docs/spec --go_out=plugins=grpc:model docs/spec/metadata.proto
-	goimports -local github.com/elastic -w $@
+model/*.pb.go: docs/spec/*.proto
+	protoc -I docs/spec --go_out=plugins=grpc:model docs/spec/*.proto
+	goimports -local github.com/elastic -w model/*.pb.go
 
 # Path to the libbeat Makefile
 -include $(ES_BEATS)/libbeat/scripts/Makefile

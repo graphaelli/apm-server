@@ -20,9 +20,11 @@ package beater
 import (
 	"context"
 	"crypto/tls"
+	"errors"
 	"io"
 	"net"
 	"net/http"
+	"time"
 
 	"go.elastic.co/apm"
 	"go.elastic.co/apm/module/apmhttp"
@@ -32,31 +34,87 @@ import (
 	"google.golang.org/grpc"
 
 	"github.com/elastic/apm-server/model"
+	model_error "github.com/elastic/apm-server/model/error"
+	"github.com/elastic/apm-server/model/metadata"
+	"github.com/elastic/apm-server/model/span"
+	"github.com/elastic/apm-server/model/transaction"
 	"github.com/elastic/apm-server/publish"
+	"github.com/elastic/apm-server/transform"
+	"github.com/elastic/apm-server/utility"
 	"github.com/elastic/beats/libbeat/logp"
 	"github.com/elastic/beats/libbeat/outputs"
 	"github.com/elastic/beats/libbeat/version"
 )
 
-type grpcServer struct{}
+type grpcServer struct {
+	report publish.Reporter
+}
 
 func (s *grpcServer) Insert(stream model.Apm_InsertServer) error {
 	logger := logp.NewLogger("grpc")
+	ctx := utility.ContextWithRequestTime(stream.Context(), time.Now())
+	var tctx *transform.Context
 	for {
-		event, err := stream.Recv()
+		raw, err := stream.Recv()
 		if err == io.EOF {
 			break
 		} else if err != nil {
 			return err
 		}
-		logger.Info(event)
+
+		var transformable transform.Transformable
+
+		switch event := raw.Apm.(type) {
+		case *model.Event_Metadata:
+			tctx = &transform.Context{
+				RequestTime: utility.RequestTime(ctx),
+				Config:      transform.Config{},
+				Metadata: metadata.Metadata{
+					Service: &metadata.Service{
+						Name: &event.Metadata.Service.Name,
+					},
+				},
+			}
+			continue
+		// TODO: consider making model.Event_* Transformables and test them to bits
+		case *model.Event_Error:
+			transformable = &model_error.Event{
+				Id: &event.Error.Id,
+			}
+		case *model.Event_Span:
+			transformable = &span.Event{
+				Id:       event.Span.Id,
+				Name:     event.Span.Name,
+				Duration: float64(event.Span.Duration.Seconds*1e3 + int64(event.Span.Duration.Nanos/1e6)),
+			}
+		case *model.Event_Transaction:
+			transformable = &transaction.Event{
+				Id:       event.Transaction.Id,
+				Name:     &event.Transaction.Name,
+				Duration: float64(event.Transaction.Duration.Seconds*1e3 + int64(event.Transaction.Duration.Nanos/1e6)),
+			}
+		}
+
+		if tctx == nil {
+			return errors.New("expected metadata first")
+		}
+
+		logger.Info(transformable)
+		if err := s.report(ctx, publish.PendingReq{
+			Transformables: []transform.Transformable{transformable},
+			Tcontext:       tctx,
+		}); err != nil {
+			return err
+		}
 	}
 	return stream.SendAndClose(&model.InsertResponse{})
 }
 
 func newServer(config *Config, tracer *apm.Tracer, report publish.Reporter) *http.Server {
 	s := grpc.NewServer()
-	model.RegisterApmServer(s, &grpcServer{})
+	model.RegisterApmServer(s, &grpcServer{
+		report: report,
+	})
 
 	oldMux := apmhttp.Wrap(newMuxer(config, report),
 		apmhttp.WithServerRequestIgnorer(doNotTrace),

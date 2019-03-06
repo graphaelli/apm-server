@@ -1,0 +1,11 @@
+syntax = "proto3";
+package model;
+
+import "google/protobuf/struct.proto";
+
+message Process {
+    int32 pid = 1;
+    int32 ppid = 2;
+    string title = 3;
+    google.protobuf.ListValue argv = 4;
+}

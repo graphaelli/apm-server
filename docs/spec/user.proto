@@ -1,0 +1,11 @@
+syntax = "proto3";
+package model;
+
+message User {
+    oneof id {
+        string string_value = 1;
+        double number_value = 2;
+    }
+    string email = 3;
+    string username = 4;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+package model;
+
+import "google/protobuf/timestamp.proto";
+
+message Error {
+    google.protobuf.Timestamp timestamp = 1;
+    string id = 2;
+}
