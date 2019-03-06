@@ -4,13 +4,31 @@ package model;
 //import "google/protobuf/timestamp.proto";
 
 service Apm {
-    rpc SendEvents (Metadata) returns (EventsResponse) {}
+    rpc Insert (stream Event) returns (InsertResponse) {}
+}
+
+message Service {
+    string name = 1;
 }
 
 message Metadata {
-    message Service {
-        string name = 1;
+    Service service = 1;
+}
+
+message Transaction {
+    string name = 1;
+}
+
+message Span {
+    string name = 1;
+}
+
+message Event {
+    oneof apm {
+        Metadata metadata = 1;
+        Transaction transaction = 2;
+        Span span = 3;
     }
 }
 
-message EventsResponse {}
+message InsertResponse {}

@@ -23,7 +23,47 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type Service struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Service) Reset()         { *m = Service{} }
+func (m *Service) String() string { return proto.CompactTextString(m) }
+func (*Service) ProtoMessage()    {}
+func (*Service) Descriptor() ([]byte, []int) {
+	return fileDescriptor_56d9f74966f40d04, []int{0}
+}
+
+func (m *Service) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Service.Unmarshal(m, b)
+}
+func (m *Service) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Service.Marshal(b, m, deterministic)
+}
+func (m *Service) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Service.Merge(m, src)
+}
+func (m *Service) XXX_Size() int {
+	return xxx_messageInfo_Service.Size(m)
+}
+func (m *Service) XXX_DiscardUnknown() {
+	xxx_messageInfo_Service.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Service proto.InternalMessageInfo
+
+func (m *Service) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
 type Metadata struct {
+	Service              *Service `protobuf:"bytes,1,opt,name=service,proto3" json:"service,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -33,7 +73,7 @@ func (m *Metadata) Reset()         { *m = Metadata{} }
 func (m *Metadata) String() string { return proto.CompactTextString(m) }
 func (*Metadata) ProtoMessage()    {}
 func (*Metadata) Descriptor() ([]byte, []int) {
-	return fileDescriptor_56d9f74966f40d04, []int{0}
+	return fileDescriptor_56d9f74966f40d04, []int{1}
 }
 
 func (m *Metadata) XXX_Unmarshal(b []byte) error {
@@ -54,95 +94,246 @@ func (m *Metadata) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Metadata proto.InternalMessageInfo
 
-type Metadata_Service struct {
+func (m *Metadata) GetService() *Service {
+	if m != nil {
+		return m.Service
+	}
+	return nil
+}
+
+type Transaction struct {
 	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Metadata_Service) Reset()         { *m = Metadata_Service{} }
-func (m *Metadata_Service) String() string { return proto.CompactTextString(m) }
-func (*Metadata_Service) ProtoMessage()    {}
-func (*Metadata_Service) Descriptor() ([]byte, []int) {
-	return fileDescriptor_56d9f74966f40d04, []int{0, 0}
+func (m *Transaction) Reset()         { *m = Transaction{} }
+func (m *Transaction) String() string { return proto.CompactTextString(m) }
+func (*Transaction) ProtoMessage()    {}
+func (*Transaction) Descriptor() ([]byte, []int) {
+	return fileDescriptor_56d9f74966f40d04, []int{2}
 }
 
-func (m *Metadata_Service) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Metadata_Service.Unmarshal(m, b)
+func (m *Transaction) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Transaction.Unmarshal(m, b)
 }
-func (m *Metadata_Service) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Metadata_Service.Marshal(b, m, deterministic)
+func (m *Transaction) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Transaction.Marshal(b, m, deterministic)
 }
-func (m *Metadata_Service) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Metadata_Service.Merge(m, src)
+func (m *Transaction) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Transaction.Merge(m, src)
 }
-func (m *Metadata_Service) XXX_Size() int {
-	return xxx_messageInfo_Metadata_Service.Size(m)
+func (m *Transaction) XXX_Size() int {
+	return xxx_messageInfo_Transaction.Size(m)
 }
-func (m *Metadata_Service) XXX_DiscardUnknown() {
-	xxx_messageInfo_Metadata_Service.DiscardUnknown(m)
+func (m *Transaction) XXX_DiscardUnknown() {
+	xxx_messageInfo_Transaction.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Metadata_Service proto.InternalMessageInfo
+var xxx_messageInfo_Transaction proto.InternalMessageInfo
 
-func (m *Metadata_Service) GetName() string {
+func (m *Transaction) GetName() string {
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 
-type EventsResponse struct {
+type Span struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *EventsResponse) Reset()         { *m = EventsResponse{} }
-func (m *EventsResponse) String() string { return proto.CompactTextString(m) }
-func (*EventsResponse) ProtoMessage()    {}
-func (*EventsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_56d9f74966f40d04, []int{1}
+func (m *Span) Reset()         { *m = Span{} }
+func (m *Span) String() string { return proto.CompactTextString(m) }
+func (*Span) ProtoMessage()    {}
+func (*Span) Descriptor() ([]byte, []int) {
+	return fileDescriptor_56d9f74966f40d04, []int{3}
 }
 
-func (m *EventsResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EventsResponse.Unmarshal(m, b)
+func (m *Span) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Span.Unmarshal(m, b)
 }
-func (m *EventsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EventsResponse.Marshal(b, m, deterministic)
+func (m *Span) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Span.Marshal(b, m, deterministic)
 }
-func (m *EventsResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EventsResponse.Merge(m, src)
+func (m *Span) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Span.Merge(m, src)
 }
-func (m *EventsResponse) XXX_Size() int {
-	return xxx_messageInfo_EventsResponse.Size(m)
+func (m *Span) XXX_Size() int {
+	return xxx_messageInfo_Span.Size(m)
 }
-func (m *EventsResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_EventsResponse.DiscardUnknown(m)
+func (m *Span) XXX_DiscardUnknown() {
+	xxx_messageInfo_Span.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_EventsResponse proto.InternalMessageInfo
+var xxx_messageInfo_Span proto.InternalMessageInfo
+
+func (m *Span) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+type Event struct {
+	// Types that are valid to be assigned to Apm:
+	//	*Event_Metadata
+	//	*Event_Transaction
+	//	*Event_Span
+	Apm                  isEvent_Apm `protobuf_oneof:"apm"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
+}
+
+func (m *Event) Reset()         { *m = Event{} }
+func (m *Event) String() string { return proto.CompactTextString(m) }
+func (*Event) ProtoMessage()    {}
+func (*Event) Descriptor() ([]byte, []int) {
+	return fileDescriptor_56d9f74966f40d04, []int{4}
+}
+
+func (m *Event) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Event.Unmarshal(m, b)
+}
+func (m *Event) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Event.Marshal(b, m, deterministic)
+}
+func (m *Event) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Event.Merge(m, src)
+}
+func (m *Event) XXX_Size() int {
+	return xxx_messageInfo_Event.Size(m)
+}
+func (m *Event) XXX_DiscardUnknown() {
+	xxx_messageInfo_Event.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Event proto.InternalMessageInfo
+
+type isEvent_Apm interface {
+	isEvent_Apm()
+}
+
+type Event_Metadata struct {
+	Metadata *Metadata `protobuf:"bytes,1,opt,name=metadata,proto3,oneof"`
+}
+
+type Event_Transaction struct {
+	Transaction *Transaction `protobuf:"bytes,2,opt,name=transaction,proto3,oneof"`
+}
+
+type Event_Span struct {
+	Span *Span `protobuf:"bytes,3,opt,name=span,proto3,oneof"`
+}
+
+func (*Event_Metadata) isEvent_Apm() {}
+
+func (*Event_Transaction) isEvent_Apm() {}
+
+func (*Event_Span) isEvent_Apm() {}
+
+func (m *Event) GetApm() isEvent_Apm {
+	if m != nil {
+		return m.Apm
+	}
+	return nil
+}
+
+func (m *Event) GetMetadata() *Metadata {
+	if x, ok := m.GetApm().(*Event_Metadata); ok {
+		return x.Metadata
+	}
+	return nil
+}
+
+func (m *Event) GetTransaction() *Transaction {
+	if x, ok := m.GetApm().(*Event_Transaction); ok {
+		return x.Transaction
+	}
+	return nil
+}
+
+func (m *Event) GetSpan() *Span {
+	if x, ok := m.GetApm().(*Event_Span); ok {
+		return x.Span
+	}
+	return nil
+}
+
+// XXX_OneofWrappers is for the internal use of the proto package.
+func (*Event) XXX_OneofWrappers() []interface{} {
+	return []interface{}{
+		(*Event_Metadata)(nil),
+		(*Event_Transaction)(nil),
+		(*Event_Span)(nil),
+	}
+}
+
+type InsertResponse struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *InsertResponse) Reset()         { *m = InsertResponse{} }
+func (m *InsertResponse) String() string { return proto.CompactTextString(m) }
+func (*InsertResponse) ProtoMessage()    {}
+func (*InsertResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_56d9f74966f40d04, []int{5}
+}
+
+func (m *InsertResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_InsertResponse.Unmarshal(m, b)
+}
+func (m *InsertResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_InsertResponse.Marshal(b, m, deterministic)
+}
+func (m *InsertResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_InsertResponse.Merge(m, src)
+}
+func (m *InsertResponse) XXX_Size() int {
+	return xxx_messageInfo_InsertResponse.Size(m)
+}
+func (m *InsertResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_InsertResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_InsertResponse proto.InternalMessageInfo
 
 func init() {
+	proto.RegisterType((*Service)(nil), "model.Service")
 	proto.RegisterType((*Metadata)(nil), "model.Metadata")
-	proto.RegisterType((*Metadata_Service)(nil), "model.Metadata.Service")
-	proto.RegisterType((*EventsResponse)(nil), "model.EventsResponse")
+	proto.RegisterType((*Transaction)(nil), "model.Transaction")
+	proto.RegisterType((*Span)(nil), "model.Span")
+	proto.RegisterType((*Event)(nil), "model.Event")
+	proto.RegisterType((*InsertResponse)(nil), "model.InsertResponse")
 }
 
 func init() { proto.RegisterFile("metadata.proto", fileDescriptor_56d9f74966f40d04) }
 
 var fileDescriptor_56d9f74966f40d04 = []byte{
-	// 137 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0xcb, 0x4d, 0x2d, 0x49,
-	0x4c, 0x49, 0x2c, 0x49, 0xd4, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0xcd, 0xcd, 0x4f, 0x49,
-	0xcd, 0x51, 0xd2, 0xe4, 0xe2, 0xf0, 0x85, 0x4a, 0x48, 0xc9, 0x72, 0xb1, 0x07, 0xa7, 0x16, 0x95,
-	0x65, 0x26, 0xa7, 0x0a, 0x09, 0x71, 0xb1, 0xe4, 0x25, 0xe6, 0xa6, 0x4a, 0x30, 0x2a, 0x30, 0x6a,
-	0x70, 0x06, 0x81, 0xd9, 0x4a, 0x02, 0x5c, 0x7c, 0xae, 0x65, 0xa9, 0x79, 0x25, 0xc5, 0x41, 0xa9,
-	0xc5, 0x05, 0xf9, 0x79, 0xc5, 0xa9, 0x46, 0xb6, 0x5c, 0xcc, 0x8e, 0x05, 0xb9, 0x42, 0x66, 0x5c,
-	0x5c, 0xc1, 0xa9, 0x79, 0x29, 0x10, 0x49, 0x21, 0x7e, 0x3d, 0xb0, 0xc9, 0x7a, 0x70, 0x63, 0x45,
-	0xa1, 0x02, 0xa8, 0x9a, 0x95, 0x18, 0x92, 0xd8, 0xc0, 0x2e, 0x31, 0x06, 0x04, 0x00, 0x00, 0xff,
-	0xff, 0xfc, 0x3e, 0x3d, 0x5e, 0x9b, 0x00, 0x00, 0x00,
+	// 251 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x91, 0x4f, 0x4b, 0xc3, 0x40,
+	0x10, 0xc5, 0x13, 0x93, 0xb4, 0x75, 0x22, 0x51, 0x06, 0x84, 0x50, 0x10, 0xec, 0x9e, 0x72, 0x31,
+	0x60, 0x15, 0xf1, 0xaa, 0x20, 0xd4, 0x83, 0x97, 0xad, 0x5f, 0x60, 0x6c, 0xe7, 0x50, 0x70, 0xff,
+	0x90, 0x5d, 0xfa, 0x59, 0xfc, 0xb8, 0xe2, 0x76, 0x57, 0x2b, 0xe4, 0x96, 0xf0, 0xde, 0xef, 0xbd,
+	0x37, 0x2c, 0x34, 0x8a, 0x3d, 0x6d, 0xc9, 0x53, 0x6f, 0x07, 0xe3, 0x0d, 0x56, 0xca, 0x6c, 0xf9,
+	0x53, 0x5c, 0xc1, 0x74, 0xcd, 0xc3, 0x7e, 0xb7, 0x61, 0x44, 0x28, 0x35, 0x29, 0x6e, 0xf3, 0xeb,
+	0xbc, 0x3b, 0x95, 0xe1, 0x5b, 0xdc, 0xc3, 0xec, 0x2d, 0x72, 0xd8, 0xc1, 0xd4, 0x1d, 0xac, 0xc1,
+	0x52, 0x2f, 0x9b, 0x3e, 0x64, 0xf4, 0x31, 0x40, 0x26, 0x59, 0x2c, 0xa0, 0x7e, 0x1f, 0x48, 0x3b,
+	0xda, 0xf8, 0x9d, 0xd1, 0xa3, 0xc1, 0x73, 0x28, 0xd7, 0x96, 0xc6, 0xb5, 0xaf, 0x1c, 0xaa, 0x97,
+	0x3d, 0x6b, 0x8f, 0x37, 0x30, 0x4b, 0xb3, 0x63, 0xe7, 0x79, 0xec, 0x4c, 0xab, 0x56, 0x99, 0xfc,
+	0xb5, 0xe0, 0x03, 0xd4, 0xfe, 0xaf, 0xb7, 0x3d, 0x09, 0x04, 0x46, 0xe2, 0x68, 0xd1, 0x2a, 0x93,
+	0xc7, 0x46, 0x5c, 0x40, 0xe9, 0x2c, 0xe9, 0xb6, 0x08, 0x40, 0x9d, 0xce, 0xb2, 0xf4, 0xe3, 0x0c,
+	0xd2, 0x73, 0x05, 0x05, 0x59, 0x25, 0x2e, 0xa0, 0x79, 0xd5, 0x8e, 0x07, 0x2f, 0xd9, 0x59, 0xa3,
+	0x1d, 0x2f, 0x1f, 0xa1, 0x78, 0xb2, 0x0a, 0x6f, 0x61, 0x72, 0x10, 0xf0, 0x2c, 0xe2, 0xe1, 0x82,
+	0xf9, 0x65, 0xfc, 0xfb, 0x4f, 0x89, 0xac, 0xcb, 0x3f, 0x26, 0xe1, 0x21, 0xee, 0xbe, 0x03, 0x00,
+	0x00, 0xff, 0xff, 0x8b, 0x1b, 0x8c, 0x3d, 0x9a, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -157,7 +348,7 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ApmClient interface {
-	SendEvents(ctx context.Context, in *Metadata, opts ...grpc.CallOption) (*EventsResponse, error)
+	Insert(ctx context.Context, opts ...grpc.CallOption) (Apm_InsertClient, error)
 }
 
 type apmClient struct {
@@ -168,51 +359,85 @@ func NewApmClient(cc *grpc.ClientConn) ApmClient {
 	return &apmClient{cc}
 }
 
-func (c *apmClient) SendEvents(ctx context.Context, in *Metadata, opts ...grpc.CallOption) (*EventsResponse, error) {
-	out := new(EventsResponse)
-	err := c.cc.Invoke(ctx, "/model.Apm/SendEvents", in, out, opts...)
+func (c *apmClient) Insert(ctx context.Context, opts ...grpc.CallOption) (Apm_InsertClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Apm_serviceDesc.Streams[0], "/model.Apm/Insert", opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &apmInsertClient{stream}
+	return x, nil
+}
+
+type Apm_InsertClient interface {
+	Send(*Event) error
+	CloseAndRecv() (*InsertResponse, error)
+	grpc.ClientStream
+}
+
+type apmInsertClient struct {
+	grpc.ClientStream
+}
+
+func (x *apmInsertClient) Send(m *Event) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *apmInsertClient) CloseAndRecv() (*InsertResponse, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(InsertResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // ApmServer is the server API for Apm service.
 type ApmServer interface {
-	SendEvents(context.Context, *Metadata) (*EventsResponse, error)
+	Insert(Apm_InsertServer) error
 }
 
 func RegisterApmServer(s *grpc.Server, srv ApmServer) {
 	s.RegisterService(&_Apm_serviceDesc, srv)
 }
 
-func _Apm_SendEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Metadata)
-	if err := dec(in); err != nil {
+func _Apm_Insert_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ApmServer).Insert(&apmInsertServer{stream})
+}
+
+type Apm_InsertServer interface {
+	SendAndClose(*InsertResponse) error
+	Recv() (*Event, error)
+	grpc.ServerStream
+}
+
+type apmInsertServer struct {
+	grpc.ServerStream
+}
+
+func (x *apmInsertServer) SendAndClose(m *InsertResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *apmInsertServer) Recv() (*Event, error) {
+	m := new(Event)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(ApmServer).SendEvents(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/model.Apm/SendEvents",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ApmServer).SendEvents(ctx, req.(*Metadata))
-	}
-	return interceptor(ctx, in, info, handler)
+	return m, nil
 }
 
 var _Apm_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "model.Apm",
 	HandlerType: (*ApmServer)(nil),
-	Methods: []grpc.MethodDesc{
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
 		{
-			MethodName: "SendEvents",
-			Handler:    _Apm_SendEvents_Handler,
+			StreamName:    "Insert",
+			Handler:       _Apm_Insert_Handler,
+			ClientStreams: true,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
 	Metadata: "metadata.proto",
 }

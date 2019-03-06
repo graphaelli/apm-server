@@ -17,9 +17,41 @@ func main() {
 	defer conn.Close()
 
 	c := model.NewApmClient(conn)
-	rsp, err := c.SendEvents(context.TODO(), &model.Metadata{})
+	stream, err := c.Insert(context.Background())
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(rsp)
+
+	events := []model.Event{
+		{
+			Apm: &model.Event_Metadata{
+				Metadata: &model.Metadata{
+					Service: &model.Service{
+						Name: "service1",
+					},
+				},
+			},
+		},
+		{
+			Apm: &model.Event_Transaction{
+				Transaction: &model.Transaction{
+					Name: "t1",
+				},
+			},
+		},
+		{
+			Apm: &model.Event_Span{
+				Span: &model.Span{
+					Name: "s1",
+				},
+			},
+		},
+	}
+
+	for _, event := range events {
+		if err := stream.Send(&event); err != nil {
+			log.Fatal(err)
+		}
+		log.Println("sent", &event)
+	}
 }

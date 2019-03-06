@@ -20,7 +20,7 @@ package beater
 import (
 	"context"
 	"crypto/tls"
-	"errors"
+	"io"
 	"net"
 	"net/http"
 
@@ -40,10 +40,18 @@ import (
 
 type grpcServer struct{}
 
-func (s *grpcServer) SendEvents(ctx context.Context, in *model.Metadata) (*model.EventsResponse, error) {
-	logp.NewLogger("server").Info("in send events")
-	return nil, errors.New("wtf")
-	//return &model.EventsResponse{}, nil
+func (s *grpcServer) Insert(stream model.Apm_InsertServer) error {
+	logger := logp.NewLogger("grpc")
+	for {
+		event, err := stream.Recv()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			return err
+		}
+		logger.Info(event)
+	}
+	return stream.SendAndClose(&model.InsertResponse{})
 }
 
 func newServer(config *Config, tracer *apm.Tracer, report publish.Reporter) *http.Server {
@@ -57,7 +65,6 @@ func newServer(config *Config, tracer *apm.Tracer, report publish.Reporter) *htt
 
 	mux := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.ProtoMajor == 2 {
-			logp.NewLogger("server").Info("grpc!")
 			s.ServeHTTP(w, r)
 		} else {
 			oldMux.ServeHTTP(w, r)
