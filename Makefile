@@ -21,11 +21,19 @@ MAGE_IMPORT_PATH=${BEAT_PATH}/vendor/github.com/magefile/mage
 .PHONY: all
 all: ${BEAT_NAME} grpc-client
 
+.PHONY: protoc-gen-go
+protoc-gen-go:
+	go install github.com/elastic/apm-server/vendor/github.com/golang/protobuf/protoc-gen-go
+
+.PHONY: protoc-gen-validate
+protoc-gen-validate:
+	$(MAKE) -C vendor/github.com/lyft/protoc-gen-validate build
+
 grpc-client: cmd/grpc-client/main.go model/*.pb.go
 	go build -i ./cmd/grpc-client
 
 model/*.pb.go: docs/spec/*.proto
-	protoc -I docs/spec --go_out=plugins=grpc:model docs/spec/*.proto
+	protoc -I docs/spec -I vendor/github.com/lyft/protoc-gen-validate --go_out=plugins=grpc:model --validate_out=lang=go:model docs/spec/*.proto
 	goimports -local github.com/elastic -w model/*.pb.go
 
 # Path to the libbeat Makefile

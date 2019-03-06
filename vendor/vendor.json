@@ -1719,6 +1719,12 @@
 			"revisionTime": "2016-08-13T22:13:03Z"
 		},
 		{
+			"checksumSHA1": "NxoJ1sUeTWZNbveibhY5mJB5Xak=",
+			"path": "github.com/iancoleman/strcase",
+			"revision": "3605ed457bf7f8caa1371b4fafadadc026673479",
+			"revisionTime": "2018-07-26T02:35:41Z"
+		},
+		{
 			"checksumSHA1": "40vJyUB4ezQSn/NSadsKEOrudMc=",
 			"origin": "github.com/elastic/beats/vendor/github.com/inconshreveable/mousetrap",
 			"path": "github.com/inconshreveable/mousetrap",
@@ -1779,6 +1785,84 @@
 			"path": "github.com/klauspost/crc32",
 			"revision": "7c338ce879cf27958c926d70b89ec9385a09e288",
 			"revisionTime": "2019-02-15T10:31:16Z"
+		},
+		{
+			"checksumSHA1": "Bvmyp0wzkWcmThK8apf0UoixPSk=",
+			"path": "github.com/lyft/protoc-gen-star",
+			"revision": "2c275d2c7d7e18961b415079c3655f3c7b0de0a6",
+			"revisionTime": "2019-02-05T07:03:38Z"
+		},
+		{
+			"checksumSHA1": "TH/t/NiBOj0cpDOeQZva+9ewNl4=",
+			"path": "github.com/lyft/protoc-gen-star/lang/go",
+			"revision": "2c275d2c7d7e18961b415079c3655f3c7b0de0a6",
+			"revisionTime": "2019-02-05T07:03:38Z"
+		},
+		{
+			"checksumSHA1": "eOph4sm8WIo/W0jDiM2HIZpw+2Y=",
+			"path": "github.com/lyft/protoc-gen-validate",
+			"revision": "4d9ec17f1e55c22b8aa4d0cae51bdab4cf0b51ef",
+			"revisionTime": "2019-02-27T20:17:49Z"
+		},
+		{
+			"checksumSHA1": "ALYCie2uUsqGFrL/jvH+KuI6IWQ=",
+			"path": "github.com/lyft/protoc-gen-validate/gogoproto",
+			"revision": "4d9ec17f1e55c22b8aa4d0cae51bdab4cf0b51ef",
+			"revisionTime": "2019-02-27T20:17:49Z"
+		},
+		{
+			"checksumSHA1": "PJ5upSGKpEoKYv2KcHaXLXYrcq8=",
+			"path": "github.com/lyft/protoc-gen-validate/module",
+			"revision": "4d9ec17f1e55c22b8aa4d0cae51bdab4cf0b51ef",
+			"revisionTime": "2019-02-27T20:17:49Z"
+		},
+		{
+			"checksumSHA1": "gzZNaO1P6NFbAAVZNbTkrRvDoVA=",
+			"path": "github.com/lyft/protoc-gen-validate/templates",
+			"revision": "4d9ec17f1e55c22b8aa4d0cae51bdab4cf0b51ef",
+			"revisionTime": "2019-02-27T20:17:49Z"
+		},
+		{
+			"checksumSHA1": "1nbaqi0bSiwbr4jrs8X+KEzvrGg=",
+			"path": "github.com/lyft/protoc-gen-validate/templates/cc",
+			"revision": "4d9ec17f1e55c22b8aa4d0cae51bdab4cf0b51ef",
+			"revisionTime": "2019-02-27T20:17:49Z"
+		},
+		{
+			"checksumSHA1": "fXm7DFPe/zkb7uFVXgFIDGXRs2E=",
+			"path": "github.com/lyft/protoc-gen-validate/templates/go",
+			"revision": "4d9ec17f1e55c22b8aa4d0cae51bdab4cf0b51ef",
+			"revisionTime": "2019-02-27T20:17:49Z"
+		},
+		{
+			"checksumSHA1": "uPT0u6QmX7TUWhwSXr14twI0hkw=",
+			"path": "github.com/lyft/protoc-gen-validate/templates/gogo",
+			"revision": "4d9ec17f1e55c22b8aa4d0cae51bdab4cf0b51ef",
+			"revisionTime": "2019-02-27T20:17:49Z"
+		},
+		{
+			"checksumSHA1": "Kxj8cTtZF3HpbxWceP/TuHqQoFQ=",
+			"path": "github.com/lyft/protoc-gen-validate/templates/goshared",
+			"revision": "4d9ec17f1e55c22b8aa4d0cae51bdab4cf0b51ef",
+			"revisionTime": "2019-02-27T20:17:49Z"
+		},
+		{
+			"checksumSHA1": "4elX7S09+2GJQ8Aw1ytscSq0bWE=",
+			"path": "github.com/lyft/protoc-gen-validate/templates/java",
+			"revision": "4d9ec17f1e55c22b8aa4d0cae51bdab4cf0b51ef",
+			"revisionTime": "2019-02-27T20:17:49Z"
+		},
+		{
+			"checksumSHA1": "/E+sWtnm0OExVK/m6PPmV5vkEKw=",
+			"path": "github.com/lyft/protoc-gen-validate/templates/shared",
+			"revision": "4d9ec17f1e55c22b8aa4d0cae51bdab4cf0b51ef",
+			"revisionTime": "2019-02-27T20:17:49Z"
+		},
+		{
+			"checksumSHA1": "zHlVORl61LtIK2CIaL3aB2yqnvM=",
+			"path": "github.com/lyft/protoc-gen-validate/validate",
+			"revision": "4d9ec17f1e55c22b8aa4d0cae51bdab4cf0b51ef",
+			"revisionTime": "2019-02-27T20:17:49Z"
 		},
 		{
 			"checksumSHA1": "ASXhLVfIA2mzHf+7muYxT38JaHU=",
@@ -2042,6 +2126,18 @@
 			"path": "github.com/sergi/go-diff/diffmatchpatch",
 			"revision": "feef008d51ad2b3778f85d387ccf91735543008d",
 			"revisionTime": "2017-04-09T07:17:39Z"
+		},
+		{
+			"checksumSHA1": "h+9Sb/jocXQ94U6GHjP4QuWuow4=",
+			"path": "github.com/spf13/afero",
+			"revision": "f4711e4db9e9a1d3887343acb72b2bbfc2f686f5",
+			"revisionTime": "2019-01-29T21:50:16Z"
+		},
+		{
+			"checksumSHA1": "HcOjO9+cwl+xYnkiGuIeesqwBs8=",
+			"path": "github.com/spf13/afero/mem",
+			"revision": "f4711e4db9e9a1d3887343acb72b2bbfc2f686f5",
+			"revisionTime": "2019-01-29T21:50:16Z"
 		},
 		{
 			"checksumSHA1": "e7mAb9jMke2ASQGZepFgOmfBFzM=",

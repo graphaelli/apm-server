@@ -2,9 +2,23 @@ syntax = "proto3";
 package model;
 
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
 
+// one of timestamp or start are required, enforced on intake
 message Span {
-    string id = 1;
-    string name = 2;
-    google.protobuf.Duration duration = 5;
+    google.protobuf.Timestamp timestamp = 1;
+    string id = 2 [(validate.rules).string.min_len = 1];
+    string transaction_id = 3 [(validate.rules).string.min_len = 1];
+    string trace_id = 4 [(validate.rules).string.min_len = 1];
+    string parent_id = 5 [(validate.rules).string.min_len = 1];
+    string start = 6;
+    string subtype = 7;
+    string action = 8;
+    //SpanContext context
+    google.protobuf.Duration duration = 9 [(validate.rules).duration.required = true];
+    string name = 10 [(validate.rules).string.min_len = 1];
+    //stacktrace
+    string type = 12 [(validate.rules).string.min_len = 1];
+    bool sync = 13;
 }

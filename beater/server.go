@@ -78,16 +78,28 @@ func (s *grpcServer) Insert(stream model.Apm_InsertServer) error {
 			continue
 		// TODO: consider making model.Event_* Transformables and test them to bits
 		case *model.Event_Error:
+			if err := event.Error.Validate(); err != nil {
+				logger.Errorf("invalid error payload: %s", err)
+				continue
+			}
 			transformable = &model_error.Event{
 				Id: &event.Error.Id,
 			}
 		case *model.Event_Span:
+			if err := event.Span.Validate(); err != nil {
+				logger.Errorf("invalid span payload: %s", err)
+				continue
+			}
 			transformable = &span.Event{
 				Id:       event.Span.Id,
 				Name:     event.Span.Name,
 				Duration: float64(event.Span.Duration.Seconds*1e3 + int64(event.Span.Duration.Nanos/1e6)),
 			}
 		case *model.Event_Transaction:
+			if err := event.Transaction.Validate(); err != nil {
+				logger.Errorf("invalid transaction payload: %s", err)
+				continue
+			}
 			transformable = &transaction.Event{
 				Id:       event.Transaction.Id,
 				Name:     &event.Transaction.Name,

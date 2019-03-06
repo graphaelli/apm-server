@@ -55,6 +55,20 @@ func main() {
 	}
 
 	for _, event := range events {
+		switch ev := event.GetApm().(type) {
+		case *model.Event_Error:
+			if err := ev.Error.Validate(); err != nil {
+				log.Println("submitting invalid error payload:", err)
+			}
+		case *model.Event_Span:
+			if err := ev.Span.Validate(); err != nil {
+				log.Println("submitting invalid span payload:", err)
+			}
+		case *model.Event_Transaction:
+			if err := ev.Transaction.Validate(); err != nil {
+				log.Println("submitting invalid transaction payload:", err)
+			}
+		}
 		if err := stream.Send(&event); err != nil {
 			log.Fatal(err)
 		}

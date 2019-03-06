@@ -2,8 +2,40 @@ syntax = "proto3";
 package model;
 
 import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
 
+// one of exception or log is required, enforced on intake
 message Error {
     google.protobuf.Timestamp timestamp = 1;
-    string id = 2;
+    string id = 2 [(validate.rules).string.min_len = 1];
+    string trace_id = 4 [(validate.rules).string.min_len = 1];
+    string transaction_id = 3 [(validate.rules).string.min_len = 1];
+    string parent_id = 5 [(validate.rules).string.min_len = 1];
+    message Transaction {
+        bool sampled = 1;
+        string type = 2;
+    }
+    //Context context
+    string culprit = 6;
+    // one of message or type is required if exception is provided
+    message Exception {
+        oneof code {
+            double number_value = 1;
+            string string_value = 2 [(validate.rules).string.max_len = 1024];
+        }
+        string message = 3;
+        string module = 4 [(validate.rules).string.max_len = 1024];
+        // attributes = 5;
+        // stacktrace = 6;
+        string type = 7 [(validate.rules).string.max_len = 1024];
+        bool handled = 8;
+    }
+    // message is required if log is provided
+    message Log {
+        string level = 1 [(validate.rules).string.max_len = 1024];
+        string logger_name = 2 [(validate.rules).string.max_len = 1024];
+        string message = 3;
+        string param_name = 4 [(validate.rules).string.max_len = 1024];
+        // stacktrace = 5;
+    }
 }
