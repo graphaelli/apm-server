@@ -8,6 +8,7 @@ import (
 	math "math"
 
 	proto "github.com/golang/protobuf/proto"
+	_ "github.com/lyft/protoc-gen-validate/validate"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -21,100 +22,22 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type Container struct {
-	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Container) Reset()         { *m = Container{} }
-func (m *Container) String() string { return proto.CompactTextString(m) }
-func (*Container) ProtoMessage()    {}
-func (*Container) Descriptor() ([]byte, []int) {
-	return fileDescriptor_86a7260ebdc12f47, []int{0}
-}
-
-func (m *Container) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Container.Unmarshal(m, b)
-}
-func (m *Container) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Container.Marshal(b, m, deterministic)
-}
-func (m *Container) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Container.Merge(m, src)
-}
-func (m *Container) XXX_Size() int {
-	return xxx_messageInfo_Container.Size(m)
-}
-func (m *Container) XXX_DiscardUnknown() {
-	xxx_messageInfo_Container.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Container proto.InternalMessageInfo
-
-func (m *Container) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type Kubernetes struct {
-	Namespace            string   `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Kubernetes) Reset()         { *m = Kubernetes{} }
-func (m *Kubernetes) String() string { return proto.CompactTextString(m) }
-func (*Kubernetes) ProtoMessage()    {}
-func (*Kubernetes) Descriptor() ([]byte, []int) {
-	return fileDescriptor_86a7260ebdc12f47, []int{1}
-}
-
-func (m *Kubernetes) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Kubernetes.Unmarshal(m, b)
-}
-func (m *Kubernetes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Kubernetes.Marshal(b, m, deterministic)
-}
-func (m *Kubernetes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Kubernetes.Merge(m, src)
-}
-func (m *Kubernetes) XXX_Size() int {
-	return xxx_messageInfo_Kubernetes.Size(m)
-}
-func (m *Kubernetes) XXX_DiscardUnknown() {
-	xxx_messageInfo_Kubernetes.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Kubernetes proto.InternalMessageInfo
-
-func (m *Kubernetes) GetNamespace() string {
-	if m != nil {
-		return m.Namespace
-	}
-	return ""
-}
-
 type System struct {
-	Architecture         string      `protobuf:"bytes,1,opt,name=architecture,proto3" json:"architecture,omitempty"`
-	Hostname             string      `protobuf:"bytes,2,opt,name=hostname,proto3" json:"hostname,omitempty"`
-	Platform             string      `protobuf:"bytes,3,opt,name=platform,proto3" json:"platform,omitempty"`
-	Container            *Container  `protobuf:"bytes,4,opt,name=container,proto3" json:"container,omitempty"`
-	Kubernetes           *Kubernetes `protobuf:"bytes,5,opt,name=kubernetes,proto3" json:"kubernetes,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
-	XXX_unrecognized     []byte      `json:"-"`
-	XXX_sizecache        int32       `json:"-"`
+	Architecture         string             `protobuf:"bytes,1,opt,name=architecture,proto3" json:"architecture,omitempty"`
+	Hostname             string             `protobuf:"bytes,2,opt,name=hostname,proto3" json:"hostname,omitempty"`
+	Platform             string             `protobuf:"bytes,3,opt,name=platform,proto3" json:"platform,omitempty"`
+	Container            *System_Container  `protobuf:"bytes,4,opt,name=container,proto3" json:"container,omitempty"`
+	Kubernetes           *System_Kubernetes `protobuf:"bytes,5,opt,name=kubernetes,proto3" json:"kubernetes,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
+	XXX_unrecognized     []byte             `json:"-"`
+	XXX_sizecache        int32              `json:"-"`
 }
 
 func (m *System) Reset()         { *m = System{} }
 func (m *System) String() string { return proto.CompactTextString(m) }
 func (*System) ProtoMessage()    {}
 func (*System) Descriptor() ([]byte, []int) {
-	return fileDescriptor_86a7260ebdc12f47, []int{2}
+	return fileDescriptor_86a7260ebdc12f47, []int{0}
 }
 
 func (m *System) XXX_Unmarshal(b []byte) error {
@@ -156,42 +79,230 @@ func (m *System) GetPlatform() string {
 	return ""
 }
 
-func (m *System) GetContainer() *Container {
+func (m *System) GetContainer() *System_Container {
 	if m != nil {
 		return m.Container
 	}
 	return nil
 }
 
-func (m *System) GetKubernetes() *Kubernetes {
+func (m *System) GetKubernetes() *System_Kubernetes {
 	if m != nil {
 		return m.Kubernetes
 	}
 	return nil
 }
 
+type System_Container struct {
+	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *System_Container) Reset()         { *m = System_Container{} }
+func (m *System_Container) String() string { return proto.CompactTextString(m) }
+func (*System_Container) ProtoMessage()    {}
+func (*System_Container) Descriptor() ([]byte, []int) {
+	return fileDescriptor_86a7260ebdc12f47, []int{0, 0}
+}
+
+func (m *System_Container) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_System_Container.Unmarshal(m, b)
+}
+func (m *System_Container) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_System_Container.Marshal(b, m, deterministic)
+}
+func (m *System_Container) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_System_Container.Merge(m, src)
+}
+func (m *System_Container) XXX_Size() int {
+	return xxx_messageInfo_System_Container.Size(m)
+}
+func (m *System_Container) XXX_DiscardUnknown() {
+	xxx_messageInfo_System_Container.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_System_Container proto.InternalMessageInfo
+
+func (m *System_Container) GetId() string {
+	if m != nil {
+		return m.Id
+	}
+	return ""
+}
+
+type System_Kubernetes struct {
+	Namespace            string                  `protobuf:"bytes,1,opt,name=namespace,proto3" json:"namespace,omitempty"`
+	Pod                  *System_Kubernetes_Pod  `protobuf:"bytes,2,opt,name=pod,proto3" json:"pod,omitempty"`
+	Node                 *System_Kubernetes_Node `protobuf:"bytes,3,opt,name=node,proto3" json:"node,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                `json:"-"`
+	XXX_unrecognized     []byte                  `json:"-"`
+	XXX_sizecache        int32                   `json:"-"`
+}
+
+func (m *System_Kubernetes) Reset()         { *m = System_Kubernetes{} }
+func (m *System_Kubernetes) String() string { return proto.CompactTextString(m) }
+func (*System_Kubernetes) ProtoMessage()    {}
+func (*System_Kubernetes) Descriptor() ([]byte, []int) {
+	return fileDescriptor_86a7260ebdc12f47, []int{0, 1}
+}
+
+func (m *System_Kubernetes) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_System_Kubernetes.Unmarshal(m, b)
+}
+func (m *System_Kubernetes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_System_Kubernetes.Marshal(b, m, deterministic)
+}
+func (m *System_Kubernetes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_System_Kubernetes.Merge(m, src)
+}
+func (m *System_Kubernetes) XXX_Size() int {
+	return xxx_messageInfo_System_Kubernetes.Size(m)
+}
+func (m *System_Kubernetes) XXX_DiscardUnknown() {
+	xxx_messageInfo_System_Kubernetes.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_System_Kubernetes proto.InternalMessageInfo
+
+func (m *System_Kubernetes) GetNamespace() string {
+	if m != nil {
+		return m.Namespace
+	}
+	return ""
+}
+
+func (m *System_Kubernetes) GetPod() *System_Kubernetes_Pod {
+	if m != nil {
+		return m.Pod
+	}
+	return nil
+}
+
+func (m *System_Kubernetes) GetNode() *System_Kubernetes_Node {
+	if m != nil {
+		return m.Node
+	}
+	return nil
+}
+
+type System_Kubernetes_Pod struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Uid                  string   `protobuf:"bytes,2,opt,name=uid,proto3" json:"uid,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *System_Kubernetes_Pod) Reset()         { *m = System_Kubernetes_Pod{} }
+func (m *System_Kubernetes_Pod) String() string { return proto.CompactTextString(m) }
+func (*System_Kubernetes_Pod) ProtoMessage()    {}
+func (*System_Kubernetes_Pod) Descriptor() ([]byte, []int) {
+	return fileDescriptor_86a7260ebdc12f47, []int{0, 1, 0}
+}
+
+func (m *System_Kubernetes_Pod) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_System_Kubernetes_Pod.Unmarshal(m, b)
+}
+func (m *System_Kubernetes_Pod) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_System_Kubernetes_Pod.Marshal(b, m, deterministic)
+}
+func (m *System_Kubernetes_Pod) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_System_Kubernetes_Pod.Merge(m, src)
+}
+func (m *System_Kubernetes_Pod) XXX_Size() int {
+	return xxx_messageInfo_System_Kubernetes_Pod.Size(m)
+}
+func (m *System_Kubernetes_Pod) XXX_DiscardUnknown() {
+	xxx_messageInfo_System_Kubernetes_Pod.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_System_Kubernetes_Pod proto.InternalMessageInfo
+
+func (m *System_Kubernetes_Pod) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *System_Kubernetes_Pod) GetUid() string {
+	if m != nil {
+		return m.Uid
+	}
+	return ""
+}
+
+type System_Kubernetes_Node struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *System_Kubernetes_Node) Reset()         { *m = System_Kubernetes_Node{} }
+func (m *System_Kubernetes_Node) String() string { return proto.CompactTextString(m) }
+func (*System_Kubernetes_Node) ProtoMessage()    {}
+func (*System_Kubernetes_Node) Descriptor() ([]byte, []int) {
+	return fileDescriptor_86a7260ebdc12f47, []int{0, 1, 1}
+}
+
+func (m *System_Kubernetes_Node) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_System_Kubernetes_Node.Unmarshal(m, b)
+}
+func (m *System_Kubernetes_Node) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_System_Kubernetes_Node.Marshal(b, m, deterministic)
+}
+func (m *System_Kubernetes_Node) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_System_Kubernetes_Node.Merge(m, src)
+}
+func (m *System_Kubernetes_Node) XXX_Size() int {
+	return xxx_messageInfo_System_Kubernetes_Node.Size(m)
+}
+func (m *System_Kubernetes_Node) XXX_DiscardUnknown() {
+	xxx_messageInfo_System_Kubernetes_Node.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_System_Kubernetes_Node proto.InternalMessageInfo
+
+func (m *System_Kubernetes_Node) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
 func init() {
-	proto.RegisterType((*Container)(nil), "model.Container")
-	proto.RegisterType((*Kubernetes)(nil), "model.Kubernetes")
 	proto.RegisterType((*System)(nil), "model.System")
+	proto.RegisterType((*System_Container)(nil), "model.System.Container")
+	proto.RegisterType((*System_Kubernetes)(nil), "model.System.Kubernetes")
+	proto.RegisterType((*System_Kubernetes_Pod)(nil), "model.System.Kubernetes.Pod")
+	proto.RegisterType((*System_Kubernetes_Node)(nil), "model.System.Kubernetes.Node")
 }
 
 func init() { proto.RegisterFile("system.proto", fileDescriptor_86a7260ebdc12f47) }
 
 var fileDescriptor_86a7260ebdc12f47 = []byte{
-	// 210 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x54, 0x90, 0xcf, 0x4e, 0xc4, 0x20,
-	0x10, 0xc6, 0x43, 0x75, 0x37, 0x32, 0x6e, 0x8c, 0x72, 0x22, 0xea, 0x61, 0xc3, 0x69, 0xe3, 0x81,
-	0x44, 0x7d, 0x04, 0x8f, 0xde, 0xea, 0x13, 0x50, 0x3a, 0xa6, 0xc4, 0x02, 0x0d, 0x4c, 0x0f, 0x3e,
-	0xa1, 0xaf, 0x65, 0x8a, 0xfd, 0xe3, 0x1e, 0x67, 0xbe, 0xdf, 0x17, 0xf8, 0x0d, 0x1c, 0xf2, 0x77,
-	0x26, 0xf4, 0x7a, 0x48, 0x91, 0xa2, 0xd8, 0xf9, 0xd8, 0x62, 0xaf, 0x1e, 0x80, 0xbf, 0xc5, 0x40,
-	0xc6, 0x05, 0x4c, 0xe2, 0x06, 0x2a, 0xd7, 0x4a, 0x76, 0x64, 0x27, 0x5e, 0x57, 0xae, 0x55, 0x4f,
-	0x00, 0xef, 0x63, 0x83, 0x29, 0x20, 0x61, 0x16, 0x8f, 0xc0, 0x83, 0xf1, 0x98, 0x07, 0x63, 0x71,
-	0x86, 0xb6, 0x85, 0xfa, 0x61, 0xb0, 0xff, 0x28, 0x0f, 0x08, 0x05, 0x07, 0x93, 0x6c, 0xe7, 0x08,
-	0x2d, 0x8d, 0x69, 0x61, 0xcf, 0x76, 0xe2, 0x1e, 0xae, 0xba, 0x98, 0x69, 0xea, 0xcb, 0xaa, 0xe4,
-	0xeb, 0x3c, 0x65, 0x43, 0x6f, 0xe8, 0x33, 0x26, 0x2f, 0x2f, 0xfe, 0xb2, 0x65, 0x16, 0x1a, 0xb8,
-	0x5d, 0xfe, 0x2b, 0x2f, 0x8f, 0xec, 0x74, 0xfd, 0x72, 0xab, 0x8b, 0x8a, 0x5e, 0x3d, 0xea, 0x0d,
-	0x11, 0xcf, 0x00, 0x5f, 0xab, 0x82, 0xdc, 0x95, 0xc2, 0xdd, 0x5c, 0xd8, 0xdc, 0xea, 0x7f, 0x50,
-	0xb3, 0x2f, 0x07, 0x7a, 0xfd, 0x0d, 0x00, 0x00, 0xff, 0xff, 0x57, 0x9a, 0xdf, 0xc2, 0x30, 0x01,
-	0x00, 0x00,
+	// 318 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x52, 0x4f, 0x4b, 0xc3, 0x30,
+	0x14, 0xa7, 0x4d, 0x37, 0xd6, 0xb7, 0x1d, 0x24, 0x97, 0xc5, 0x32, 0x65, 0xec, 0x30, 0x76, 0xaa,
+	0x38, 0x11, 0x3c, 0xbb, 0xa3, 0x20, 0x23, 0x7e, 0x82, 0xac, 0x79, 0xb2, 0xe0, 0xda, 0x94, 0x34,
+	0x13, 0xbc, 0xf9, 0xb9, 0x3c, 0xf9, 0x75, 0xfc, 0x0a, 0x3b, 0x49, 0x12, 0xba, 0xd9, 0xc3, 0xf0,
+	0xd6, 0xf7, 0xfb, 0xd7, 0xdf, 0x7b, 0x04, 0x46, 0xcd, 0x47, 0x63, 0xb1, 0xcc, 0x6b, 0xa3, 0xad,
+	0xa6, 0xbd, 0x52, 0x4b, 0xdc, 0x65, 0xe3, 0x77, 0xb1, 0x53, 0x52, 0x58, 0xbc, 0x69, 0x3f, 0x02,
+	0x3f, 0x3b, 0x10, 0xe8, 0xbf, 0x78, 0x03, 0x9d, 0xc1, 0x48, 0x98, 0x62, 0xab, 0x2c, 0x16, 0x76,
+	0x6f, 0x90, 0x45, 0xd3, 0x68, 0x91, 0xf2, 0x0e, 0x46, 0x33, 0x18, 0x6c, 0x75, 0x63, 0x2b, 0x51,
+	0x22, 0x8b, 0x3d, 0x7f, 0x9c, 0x1d, 0x57, 0xef, 0x84, 0x7d, 0xd5, 0xa6, 0x64, 0x24, 0x70, 0xed,
+	0x4c, 0xef, 0x21, 0x2d, 0x74, 0x65, 0x85, 0xaa, 0xd0, 0xb0, 0x64, 0x1a, 0x2d, 0x86, 0xcb, 0x71,
+	0xee, 0xab, 0xe5, 0xe1, 0xef, 0xf9, 0xaa, 0xa5, 0xf9, 0x49, 0x49, 0x1f, 0x00, 0xde, 0xf6, 0x1b,
+	0x34, 0x15, 0x5a, 0x6c, 0x58, 0xcf, 0xfb, 0x58, 0xd7, 0xf7, 0x74, 0xe4, 0xf9, 0x1f, 0x6d, 0x36,
+	0x87, 0xf4, 0x98, 0x48, 0x2f, 0x21, 0x56, 0x32, 0xec, 0xf3, 0x98, 0x7e, 0xfd, 0x7c, 0x93, 0xc4,
+	0xc4, 0x17, 0x11, 0x8f, 0x95, 0xcc, 0x0e, 0x11, 0xc0, 0x29, 0x82, 0x4e, 0x20, 0x75, 0xbb, 0x34,
+	0xb5, 0x28, 0xda, 0x03, 0x9c, 0x00, 0x9a, 0x03, 0xa9, 0xb5, 0xf4, 0x8b, 0x0f, 0x97, 0x93, 0x73,
+	0x3d, 0xf2, 0xb5, 0x96, 0xdc, 0x09, 0xe9, 0x2d, 0x24, 0x95, 0x96, 0xe8, 0xaf, 0x31, 0x5c, 0x5e,
+	0x9d, 0x35, 0x3c, 0x6b, 0x89, 0xdc, 0x4b, 0xb3, 0x15, 0x90, 0xb5, 0x96, 0xf4, 0x1a, 0x12, 0x7f,
+	0xe3, 0xd0, 0x19, 0x5c, 0xe7, 0x9e, 0x21, 0xec, 0x73, 0xc0, 0x3d, 0x4e, 0x27, 0x40, 0xf6, 0x2a,
+	0x34, 0xe9, 0xd2, 0x0e, 0xce, 0xe6, 0x90, 0xb8, 0xc8, 0xff, 0x52, 0x36, 0x7d, 0xff, 0x06, 0xee,
+	0x7e, 0x03, 0x00, 0x00, 0xff, 0xff, 0x90, 0x5b, 0x6a, 0x4c, 0x33, 0x02, 0x00, 0x00,
 }

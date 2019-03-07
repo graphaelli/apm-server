@@ -1,15 +1,26 @@
 syntax = "proto3";
 package model;
 
-message Container {
-    string id = 1;
-}
-
-message Kubernetes {
-    string namespace = 1;
-}
+import "validate/validate.proto";
 
 message System {
+    message Container {
+        string id = 1 [(validate.rules).string.min_len = 1];
+    }
+    message Kubernetes {
+        message Pod {
+            string name = 1 [(validate.rules).string.max_len = 1024];
+            string uid = 2 [(validate.rules).string.max_len = 1024];
+        }
+        message Node {
+            string name = 1 [(validate.rules).string.max_len = 1024];
+        }
+
+        string namespace = 1;
+        Pod pod = 2;
+        Node node = 3;
+    }
+
     string architecture = 1;
     string hostname = 2;
     string platform = 3;

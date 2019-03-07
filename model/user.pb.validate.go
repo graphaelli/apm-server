@@ -40,14 +40,30 @@ func (m *User) Validate() error {
 		return nil
 	}
 
-	// no validation rules for Email
+	if utf8.RuneCountInString(m.GetEmail()) > 1024 {
+		return UserValidationError{
+			field:  "Email",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
 
-	// no validation rules for Username
+	if utf8.RuneCountInString(m.GetUsername()) > 1024 {
+		return UserValidationError{
+			field:  "Username",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
 
 	switch m.Id.(type) {
 
 	case *User_StringValue:
-		// no validation rules for StringValue
+
+		if utf8.RuneCountInString(m.GetStringValue()) > 1024 {
+			return UserValidationError{
+				field:  "StringValue",
+				reason: "value length must be at most 1024 runes",
+			}
+		}
 
 	case *User_NumberValue:
 		// no validation rules for NumberValue

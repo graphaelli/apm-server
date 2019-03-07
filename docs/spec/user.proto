@@ -1,11 +1,13 @@
 syntax = "proto3";
 package model;
 
+import "validate/validate.proto";
+
 message User {
     oneof id {
-        string string_value = 1;
+        string string_value = 1 [(validate.rules).string.max_len = 1024];
         double number_value = 2;
     }
-    string email = 3;
-    string username = 4;
+    string email = 3 [(validate.rules).string.max_len = 1024];
+    string username = 4 [(validate.rules).string.max_len = 1024];
 }

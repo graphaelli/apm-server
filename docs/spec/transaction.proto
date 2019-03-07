@@ -5,20 +5,24 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
 
+import "context.proto";
+
 message Transaction {
+    message SpanCount {
+        uint32 started = 1;
+        uint32 dropped = 2;
+    }
+
     google.protobuf.Timestamp timestamp = 1;
     string id = 2 [(validate.rules).string.min_len = 1];
     string trace_id = 3 [(validate.rules).string.min_len = 1];
     string parent_id = 4;
-    message SpanCount {
-        int32 started = 1;
-        int32 dropped = 2;
-    }
-    // Context context = 5;
-    google.protobuf.Duration duration = 6 [(validate.rules).duration.required = true];
-    string name = 7;
-    string result = 8;
-    string type = 9 [(validate.rules).string.min_len = 1];
-    map<string, double> marks = 10;
-    bool sampled = 11;
+    SpanCount span_count = 5;
+    Context2 context = 6;
+    google.protobuf.Duration duration = 7 [(validate.rules).duration.required = true];
+    string name = 8;
+    string result = 9;
+    string type = 10 [(validate.rules).string.min_len = 1];
+    map<string, double> marks = 11;
+    bool sampled = 12;
 }

@@ -1,0 +1,19 @@
+syntax = "proto3";
+package model;
+
+import "google/protobuf/struct.proto";
+import "validate/validate.proto";
+
+message StacktraceFrame2 {
+    string abs_path = 1;
+    uint32 colno = 2;
+    string context_line = 3;
+    string filename = 4 [(validate.rules).string.min_len = 1];
+    string function = 5;
+    bool library_frame = 6;
+    uint32 lineno = 7;
+    string module = 8;
+    google.protobuf.ListValue post_context = 9;
+    google.protobuf.ListValue pre_context = 10;
+    map<string, bytes> vars = 11;
+}

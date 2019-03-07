@@ -67,6 +67,26 @@ func (m *Transaction) Validate() error {
 
 	// no validation rules for ParentId
 
+	if v, ok := interface{}(m.GetSpanCount()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TransactionValidationError{
+				field:  "SpanCount",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if v, ok := interface{}(m.GetContext()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return TransactionValidationError{
+				field:  "Context",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if m.GetDuration() == nil {
 		return TransactionValidationError{
 			field:  "Duration",

@@ -5,20 +5,51 @@ import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
 
+import "stacktrace.proto";
+import "tags.proto";
+
 // one of timestamp or start are required, enforced on intake
 message Span {
+    message Context {
+        message Db {
+            string instance = 1;
+            string statement = 2;
+            string type = 3;
+            string user = 4;
+        }
+        message Http {
+            string url = 1;
+            uint32 status_code = 2;
+            string method = 3;
+        }
+        message Service {
+            message Agent {
+                string name = 1 [(validate.rules).string.max_len = 1024];
+                string version = 2 [(validate.rules).string.max_len = 1024];
+            }
+
+            Agent agent = 1;
+            string name = 2 [(validate.rules).string.max_len = 1024];
+        }
+
+        Db db = 1;
+        Http http = 2;
+        map<string, TagValue> tags = 3;
+        Service service = 4;
+    }
+
     google.protobuf.Timestamp timestamp = 1;
     string id = 2 [(validate.rules).string.min_len = 1];
     string transaction_id = 3 [(validate.rules).string.min_len = 1];
     string trace_id = 4 [(validate.rules).string.min_len = 1];
     string parent_id = 5 [(validate.rules).string.min_len = 1];
-    string start = 6;
+    uint64 start = 6;
     string subtype = 7;
     string action = 8;
-    //SpanContext context
-    google.protobuf.Duration duration = 9 [(validate.rules).duration.required = true];
-    string name = 10 [(validate.rules).string.min_len = 1];
-    //stacktrace
-    string type = 12 [(validate.rules).string.min_len = 1];
-    bool sync = 13;
+    Context context = 9;
+    google.protobuf.Duration duration = 10 [(validate.rules).duration.required = true];
+    string name = 11 [(validate.rules).string.min_len = 1];
+    repeated StacktraceFrame2 stacktrace = 12;
+    string type = 13 [(validate.rules).string.min_len = 1];
+    bool sync = 14;
 }

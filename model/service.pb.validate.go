@@ -33,278 +33,6 @@ var (
 	_ = ptypes.DynamicAny{}
 )
 
-// Validate checks the field values on Agent with the rules defined in the
-// proto definition for this message. If any rules are violated, an error is returned.
-func (m *Agent) Validate() error {
-	if m == nil {
-		return nil
-	}
-
-	// no validation rules for Name
-
-	// no validation rules for Version
-
-	return nil
-}
-
-// AgentValidationError is the validation error returned by Agent.Validate if
-// the designated constraints aren't met.
-type AgentValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e AgentValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e AgentValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e AgentValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e AgentValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e AgentValidationError) ErrorName() string { return "AgentValidationError" }
-
-// Error satisfies the builtin error interface
-func (e AgentValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sAgent.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = AgentValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = AgentValidationError{}
-
-// Validate checks the field values on Framework with the rules defined in the
-// proto definition for this message. If any rules are violated, an error is returned.
-func (m *Framework) Validate() error {
-	if m == nil {
-		return nil
-	}
-
-	// no validation rules for Name
-
-	// no validation rules for Version
-
-	return nil
-}
-
-// FrameworkValidationError is the validation error returned by
-// Framework.Validate if the designated constraints aren't met.
-type FrameworkValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e FrameworkValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e FrameworkValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e FrameworkValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e FrameworkValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e FrameworkValidationError) ErrorName() string { return "FrameworkValidationError" }
-
-// Error satisfies the builtin error interface
-func (e FrameworkValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sFramework.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = FrameworkValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = FrameworkValidationError{}
-
-// Validate checks the field values on Language with the rules defined in the
-// proto definition for this message. If any rules are violated, an error is returned.
-func (m *Language) Validate() error {
-	if m == nil {
-		return nil
-	}
-
-	// no validation rules for Name
-
-	// no validation rules for Version
-
-	return nil
-}
-
-// LanguageValidationError is the validation error returned by
-// Language.Validate if the designated constraints aren't met.
-type LanguageValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e LanguageValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e LanguageValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e LanguageValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e LanguageValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e LanguageValidationError) ErrorName() string { return "LanguageValidationError" }
-
-// Error satisfies the builtin error interface
-func (e LanguageValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sLanguage.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = LanguageValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = LanguageValidationError{}
-
-// Validate checks the field values on Runtime with the rules defined in the
-// proto definition for this message. If any rules are violated, an error is returned.
-func (m *Runtime) Validate() error {
-	if m == nil {
-		return nil
-	}
-
-	// no validation rules for Name
-
-	// no validation rules for Version
-
-	return nil
-}
-
-// RuntimeValidationError is the validation error returned by Runtime.Validate
-// if the designated constraints aren't met.
-type RuntimeValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e RuntimeValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e RuntimeValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e RuntimeValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e RuntimeValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e RuntimeValidationError) ErrorName() string { return "RuntimeValidationError" }
-
-// Error satisfies the builtin error interface
-func (e RuntimeValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sRuntime.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = RuntimeValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = RuntimeValidationError{}
-
 // Validate checks the field values on Service with the rules defined in the
 // proto definition for this message. If any rules are violated, an error is returned.
 func (m *Service) Validate() error {
@@ -312,11 +40,26 @@ func (m *Service) Validate() error {
 		return nil
 	}
 
-	// no validation rules for Name
+	if utf8.RuneCountInString(m.GetName()) > 1024 {
+		return ServiceValidationError{
+			field:  "Name",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
 
-	// no validation rules for Environment
+	if utf8.RuneCountInString(m.GetEnvironment()) > 1024 {
+		return ServiceValidationError{
+			field:  "Environment",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
 
-	// no validation rules for Version
+	if utf8.RuneCountInString(m.GetVersion()) > 1024 {
+		return ServiceValidationError{
+			field:  "Version",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
 
 	if v, ok := interface{}(m.GetAgent()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
@@ -414,3 +157,321 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ServiceValidationError{}
+
+// Validate checks the field values on Service_Agent with the rules defined in
+// the proto definition for this message. If any rules are violated, an error
+// is returned.
+func (m *Service_Agent) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if utf8.RuneCountInString(m.GetName()) > 1024 {
+		return Service_AgentValidationError{
+			field:  "Name",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetVersion()) > 1024 {
+		return Service_AgentValidationError{
+			field:  "Version",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	return nil
+}
+
+// Service_AgentValidationError is the validation error returned by
+// Service_Agent.Validate if the designated constraints aren't met.
+type Service_AgentValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Service_AgentValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Service_AgentValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Service_AgentValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Service_AgentValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Service_AgentValidationError) ErrorName() string { return "Service_AgentValidationError" }
+
+// Error satisfies the builtin error interface
+func (e Service_AgentValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sService_Agent.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Service_AgentValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Service_AgentValidationError{}
+
+// Validate checks the field values on Service_Framework with the rules defined
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
+func (m *Service_Framework) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if utf8.RuneCountInString(m.GetName()) > 1024 {
+		return Service_FrameworkValidationError{
+			field:  "Name",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetVersion()) > 1024 {
+		return Service_FrameworkValidationError{
+			field:  "Version",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	return nil
+}
+
+// Service_FrameworkValidationError is the validation error returned by
+// Service_Framework.Validate if the designated constraints aren't met.
+type Service_FrameworkValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Service_FrameworkValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Service_FrameworkValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Service_FrameworkValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Service_FrameworkValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Service_FrameworkValidationError) ErrorName() string {
+	return "Service_FrameworkValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e Service_FrameworkValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sService_Framework.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Service_FrameworkValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Service_FrameworkValidationError{}
+
+// Validate checks the field values on Service_Language with the rules defined
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
+func (m *Service_Language) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if utf8.RuneCountInString(m.GetName()) > 1024 {
+		return Service_LanguageValidationError{
+			field:  "Name",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetVersion()) > 1024 {
+		return Service_LanguageValidationError{
+			field:  "Version",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	return nil
+}
+
+// Service_LanguageValidationError is the validation error returned by
+// Service_Language.Validate if the designated constraints aren't met.
+type Service_LanguageValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Service_LanguageValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Service_LanguageValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Service_LanguageValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Service_LanguageValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Service_LanguageValidationError) ErrorName() string { return "Service_LanguageValidationError" }
+
+// Error satisfies the builtin error interface
+func (e Service_LanguageValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sService_Language.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Service_LanguageValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Service_LanguageValidationError{}
+
+// Validate checks the field values on Service_Runtime with the rules defined
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
+func (m *Service_Runtime) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if utf8.RuneCountInString(m.GetName()) > 1024 {
+		return Service_RuntimeValidationError{
+			field:  "Name",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetVersion()) > 1024 {
+		return Service_RuntimeValidationError{
+			field:  "Version",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	return nil
+}
+
+// Service_RuntimeValidationError is the validation error returned by
+// Service_Runtime.Validate if the designated constraints aren't met.
+type Service_RuntimeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Service_RuntimeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Service_RuntimeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Service_RuntimeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Service_RuntimeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Service_RuntimeValidationError) ErrorName() string { return "Service_RuntimeValidationError" }
+
+// Error satisfies the builtin error interface
+func (e Service_RuntimeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sService_Runtime.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Service_RuntimeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Service_RuntimeValidationError{}

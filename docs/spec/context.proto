@@ -1,0 +1,58 @@
+syntax = "proto3";
+package model;
+
+import "validate/validate.proto";
+
+import "service.proto";
+import "tags.proto";
+import "user.proto";
+
+message ListString {
+    repeated string value = 1;
+}
+
+message Context2 {
+    message Page {
+        string referer = 1;
+        string url = 2;
+    }
+    message Request {
+        message Socket {
+            bool encrypted = 1;
+            string remote_address = 2;
+        }
+        message Url {
+            string raw = 1 [(validate.rules).string.max_len = 1024];
+            string protocol = 2 [(validate.rules).string.max_len = 1024];
+            string full = 3 [(validate.rules).string.max_len = 1024];
+            string hostname = 4 [(validate.rules).string.max_len = 1024];
+            uint32 port = 5;
+            string pathname = 6 [(validate.rules).string.max_len = 1024];
+            string search = 7 [(validate.rules).string.max_len = 1024];
+            string hash = 8 [(validate.rules).string.max_len = 1024];
+        }
+
+        bytes body = 1;
+        map<string, bytes> env = 2;
+        map<string, ListString> headers = 3;
+        string http_version = 4 [(validate.rules).string.max_len = 1024];
+        string method = 5 [(validate.rules).string.max_len = 1024];
+        Socket socket = 6;
+        Url url = 7;
+        map<string, bytes> cookies = 8;
+    }
+    message Response {
+        bool finished = 1;
+        map<string, ListString> headers = 2;
+        bool headers_sent = 3;
+        uint32 status_code = 4;
+    }
+
+    map<string, bytes> custom = 1;
+    Response response = 2;
+    Request request = 3;
+    map<string, TagValue> tags = 4;
+    User user = 5;
+    Page page = 6;
+    Service service = 7;
+}

@@ -3,20 +3,11 @@ package model;
 
 import "google/protobuf/timestamp.proto";
 import "validate/validate.proto";
+import "context.proto";
+import "stacktrace.proto";
 
 // one of exception or log is required, enforced on intake
 message Error {
-    google.protobuf.Timestamp timestamp = 1;
-    string id = 2 [(validate.rules).string.min_len = 1];
-    string trace_id = 4 [(validate.rules).string.min_len = 1];
-    string transaction_id = 3 [(validate.rules).string.min_len = 1];
-    string parent_id = 5 [(validate.rules).string.min_len = 1];
-    message Transaction {
-        bool sampled = 1;
-        string type = 2;
-    }
-    //Context context
-    string culprit = 6;
     // one of message or type is required if exception is provided
     message Exception {
         oneof code {
@@ -25,8 +16,8 @@ message Error {
         }
         string message = 3;
         string module = 4 [(validate.rules).string.max_len = 1024];
-        // attributes = 5;
-        // stacktrace = 6;
+        map<string, bytes> attributes = 5;
+        repeated StacktraceFrame2 stacktrace = 6;
         string type = 7 [(validate.rules).string.max_len = 1024];
         bool handled = 8;
     }
@@ -34,8 +25,23 @@ message Error {
     message Log {
         string level = 1 [(validate.rules).string.max_len = 1024];
         string logger_name = 2 [(validate.rules).string.max_len = 1024];
-        string message = 3;
-        string param_name = 4 [(validate.rules).string.max_len = 1024];
-        // stacktrace = 5;
+        string message = 3 [(validate.rules).string.min_len = 1];
+        string param_message = 4 [(validate.rules).string.max_len = 1024];
+        repeated StacktraceFrame2 stacktrace = 5;
     }
+    message Transaction {
+        bool sampled = 1;
+        string type = 2 [(validate.rules).string.max_len = 1024];
+    }
+
+    google.protobuf.Timestamp timestamp = 1;
+    string id = 2 [(validate.rules).string.min_len = 1];
+    string trace_id = 4 [(validate.rules).string.min_len = 1];
+    string transaction_id = 3 [(validate.rules).string.min_len = 1];
+    string parent_id = 5 [(validate.rules).string.min_len = 1];
+    Transaction transaction = 6;
+    Context2 context = 7;
+    string culprit = 8;
+    Exception exception = 9;
+    Log log = 10;
 }

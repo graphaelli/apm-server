@@ -78,7 +78,47 @@ func (m *Error) Validate() error {
 		}
 	}
 
+	if v, ok := interface{}(m.GetTransaction()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ErrorValidationError{
+				field:  "Transaction",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if v, ok := interface{}(m.GetContext()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ErrorValidationError{
+				field:  "Context",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	// no validation rules for Culprit
+
+	if v, ok := interface{}(m.GetException()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ErrorValidationError{
+				field:  "Exception",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if v, ok := interface{}(m.GetLog()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return ErrorValidationError{
+				field:  "Log",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
 
 	return nil
 }
@@ -137,77 +177,6 @@ var _ interface {
 	ErrorName() string
 } = ErrorValidationError{}
 
-// Validate checks the field values on Error_Transaction with the rules defined
-// in the proto definition for this message. If any rules are violated, an
-// error is returned.
-func (m *Error_Transaction) Validate() error {
-	if m == nil {
-		return nil
-	}
-
-	// no validation rules for Sampled
-
-	// no validation rules for Type
-
-	return nil
-}
-
-// Error_TransactionValidationError is the validation error returned by
-// Error_Transaction.Validate if the designated constraints aren't met.
-type Error_TransactionValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e Error_TransactionValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e Error_TransactionValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e Error_TransactionValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e Error_TransactionValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e Error_TransactionValidationError) ErrorName() string {
-	return "Error_TransactionValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e Error_TransactionValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sError_Transaction.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = Error_TransactionValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = Error_TransactionValidationError{}
-
 // Validate checks the field values on Error_Exception with the rules defined
 // in the proto definition for this message. If any rules are violated, an
 // error is returned.
@@ -223,6 +192,23 @@ func (m *Error_Exception) Validate() error {
 			field:  "Module",
 			reason: "value length must be at most 1024 runes",
 		}
+	}
+
+	// no validation rules for Attributes
+
+	for idx, item := range m.GetStacktrace() {
+		_, _ = idx, item
+
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return Error_ExceptionValidationError{
+					field:  fmt.Sprintf("Stacktrace[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if utf8.RuneCountInString(m.GetType()) > 1024 {
@@ -328,13 +314,33 @@ func (m *Error_Log) Validate() error {
 		}
 	}
 
-	// no validation rules for Message
-
-	if utf8.RuneCountInString(m.GetParamName()) > 1024 {
+	if utf8.RuneCountInString(m.GetMessage()) < 1 {
 		return Error_LogValidationError{
-			field:  "ParamName",
+			field:  "Message",
+			reason: "value length must be at least 1 runes",
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetParamMessage()) > 1024 {
+		return Error_LogValidationError{
+			field:  "ParamMessage",
 			reason: "value length must be at most 1024 runes",
 		}
+	}
+
+	for idx, item := range m.GetStacktrace() {
+		_, _ = idx, item
+
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return Error_LogValidationError{
+					field:  fmt.Sprintf("Stacktrace[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	return nil
@@ -393,3 +399,79 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = Error_LogValidationError{}
+
+// Validate checks the field values on Error_Transaction with the rules defined
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
+func (m *Error_Transaction) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Sampled
+
+	if utf8.RuneCountInString(m.GetType()) > 1024 {
+		return Error_TransactionValidationError{
+			field:  "Type",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	return nil
+}
+
+// Error_TransactionValidationError is the validation error returned by
+// Error_Transaction.Validate if the designated constraints aren't met.
+type Error_TransactionValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Error_TransactionValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Error_TransactionValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Error_TransactionValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Error_TransactionValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Error_TransactionValidationError) ErrorName() string {
+	return "Error_TransactionValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e Error_TransactionValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sError_Transaction.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Error_TransactionValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Error_TransactionValidationError{}

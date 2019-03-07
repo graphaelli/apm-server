@@ -28,7 +28,7 @@ func main() {
 				Metadata: &model.Metadata{
 					Service: &model.Service{
 						Name: "service1",
-						Agent: &model.Agent{
+						Agent: &model.Service_Agent{
 							Name:    "go-grpc",
 							Version: "0.0.1",
 						},

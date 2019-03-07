@@ -84,6 +84,16 @@ func (m *Span) Validate() error {
 
 	// no validation rules for Action
 
+	if v, ok := interface{}(m.GetContext()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return SpanValidationError{
+				field:  "Context",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	if m.GetDuration() == nil {
 		return SpanValidationError{
 			field:  "Duration",
@@ -96,6 +106,21 @@ func (m *Span) Validate() error {
 			field:  "Name",
 			reason: "value length must be at least 1 runes",
 		}
+	}
+
+	for idx, item := range m.GetStacktrace() {
+		_, _ = idx, item
+
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return SpanValidationError{
+					field:  fmt.Sprintf("Stacktrace[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if utf8.RuneCountInString(m.GetType()) < 1 {
@@ -163,3 +188,411 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = SpanValidationError{}
+
+// Validate checks the field values on Span_Context with the rules defined in
+// the proto definition for this message. If any rules are violated, an error
+// is returned.
+func (m *Span_Context) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if v, ok := interface{}(m.GetDb()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Span_ContextValidationError{
+				field:  "Db",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if v, ok := interface{}(m.GetHttp()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Span_ContextValidationError{
+				field:  "Http",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	// no validation rules for Tags
+
+	if v, ok := interface{}(m.GetService()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Span_ContextValidationError{
+				field:  "Service",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	return nil
+}
+
+// Span_ContextValidationError is the validation error returned by
+// Span_Context.Validate if the designated constraints aren't met.
+type Span_ContextValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Span_ContextValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Span_ContextValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Span_ContextValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Span_ContextValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Span_ContextValidationError) ErrorName() string { return "Span_ContextValidationError" }
+
+// Error satisfies the builtin error interface
+func (e Span_ContextValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpan_Context.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Span_ContextValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Span_ContextValidationError{}
+
+// Validate checks the field values on Span_Context_Db with the rules defined
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
+func (m *Span_Context_Db) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Instance
+
+	// no validation rules for Statement
+
+	// no validation rules for Type
+
+	// no validation rules for User
+
+	return nil
+}
+
+// Span_Context_DbValidationError is the validation error returned by
+// Span_Context_Db.Validate if the designated constraints aren't met.
+type Span_Context_DbValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Span_Context_DbValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Span_Context_DbValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Span_Context_DbValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Span_Context_DbValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Span_Context_DbValidationError) ErrorName() string { return "Span_Context_DbValidationError" }
+
+// Error satisfies the builtin error interface
+func (e Span_Context_DbValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpan_Context_Db.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Span_Context_DbValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Span_Context_DbValidationError{}
+
+// Validate checks the field values on Span_Context_Http with the rules defined
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
+func (m *Span_Context_Http) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Url
+
+	// no validation rules for StatusCode
+
+	// no validation rules for Method
+
+	return nil
+}
+
+// Span_Context_HttpValidationError is the validation error returned by
+// Span_Context_Http.Validate if the designated constraints aren't met.
+type Span_Context_HttpValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Span_Context_HttpValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Span_Context_HttpValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Span_Context_HttpValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Span_Context_HttpValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Span_Context_HttpValidationError) ErrorName() string {
+	return "Span_Context_HttpValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e Span_Context_HttpValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpan_Context_Http.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Span_Context_HttpValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Span_Context_HttpValidationError{}
+
+// Validate checks the field values on Span_Context_Service with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *Span_Context_Service) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if v, ok := interface{}(m.GetAgent()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return Span_Context_ServiceValidationError{
+				field:  "Agent",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetName()) > 1024 {
+		return Span_Context_ServiceValidationError{
+			field:  "Name",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	return nil
+}
+
+// Span_Context_ServiceValidationError is the validation error returned by
+// Span_Context_Service.Validate if the designated constraints aren't met.
+type Span_Context_ServiceValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Span_Context_ServiceValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Span_Context_ServiceValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Span_Context_ServiceValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Span_Context_ServiceValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Span_Context_ServiceValidationError) ErrorName() string {
+	return "Span_Context_ServiceValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e Span_Context_ServiceValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpan_Context_Service.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Span_Context_ServiceValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Span_Context_ServiceValidationError{}
+
+// Validate checks the field values on Span_Context_Service_Agent with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *Span_Context_Service_Agent) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if utf8.RuneCountInString(m.GetName()) > 1024 {
+		return Span_Context_Service_AgentValidationError{
+			field:  "Name",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetVersion()) > 1024 {
+		return Span_Context_Service_AgentValidationError{
+			field:  "Version",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	return nil
+}
+
+// Span_Context_Service_AgentValidationError is the validation error returned
+// by Span_Context_Service_Agent.Validate if the designated constraints aren't met.
+type Span_Context_Service_AgentValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e Span_Context_Service_AgentValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e Span_Context_Service_AgentValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e Span_Context_Service_AgentValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e Span_Context_Service_AgentValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e Span_Context_Service_AgentValidationError) ErrorName() string {
+	return "Span_Context_Service_AgentValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e Span_Context_Service_AgentValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSpan_Context_Service_Agent.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = Span_Context_Service_AgentValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = Span_Context_Service_AgentValidationError{}

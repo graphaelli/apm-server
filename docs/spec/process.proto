@@ -2,10 +2,11 @@ syntax = "proto3";
 package model;
 
 import "google/protobuf/struct.proto";
+import "validate/validate.proto";
 
 message Process {
-    int32 pid = 1;
-    int32 ppid = 2;
-    string title = 3;
-    google.protobuf.ListValue argv = 4;
+    uint32 pid = 1 [(validate.rules).uint32.gt = 0];
+    uint32 ppid = 2;
+    string title = 3 [(validate.rules).string.max_len = 1024];
+    repeated string argv = 4;
 }

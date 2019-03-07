@@ -33,138 +33,6 @@ var (
 	_ = ptypes.DynamicAny{}
 )
 
-// Validate checks the field values on Container with the rules defined in the
-// proto definition for this message. If any rules are violated, an error is returned.
-func (m *Container) Validate() error {
-	if m == nil {
-		return nil
-	}
-
-	// no validation rules for Id
-
-	return nil
-}
-
-// ContainerValidationError is the validation error returned by
-// Container.Validate if the designated constraints aren't met.
-type ContainerValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e ContainerValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e ContainerValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e ContainerValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e ContainerValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e ContainerValidationError) ErrorName() string { return "ContainerValidationError" }
-
-// Error satisfies the builtin error interface
-func (e ContainerValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sContainer.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = ContainerValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = ContainerValidationError{}
-
-// Validate checks the field values on Kubernetes with the rules defined in the
-// proto definition for this message. If any rules are violated, an error is returned.
-func (m *Kubernetes) Validate() error {
-	if m == nil {
-		return nil
-	}
-
-	// no validation rules for Namespace
-
-	return nil
-}
-
-// KubernetesValidationError is the validation error returned by
-// Kubernetes.Validate if the designated constraints aren't met.
-type KubernetesValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e KubernetesValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e KubernetesValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e KubernetesValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e KubernetesValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e KubernetesValidationError) ErrorName() string { return "KubernetesValidationError" }
-
-// Error satisfies the builtin error interface
-func (e KubernetesValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sKubernetes.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = KubernetesValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = KubernetesValidationError{}
-
 // Validate checks the field values on System with the rules defined in the
 // proto definition for this message. If any rules are violated, an error is returned.
 func (m *System) Validate() error {
@@ -254,3 +122,319 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = SystemValidationError{}
+
+// Validate checks the field values on System_Container with the rules defined
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
+func (m *System_Container) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if utf8.RuneCountInString(m.GetId()) < 1 {
+		return System_ContainerValidationError{
+			field:  "Id",
+			reason: "value length must be at least 1 runes",
+		}
+	}
+
+	return nil
+}
+
+// System_ContainerValidationError is the validation error returned by
+// System_Container.Validate if the designated constraints aren't met.
+type System_ContainerValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e System_ContainerValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e System_ContainerValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e System_ContainerValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e System_ContainerValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e System_ContainerValidationError) ErrorName() string { return "System_ContainerValidationError" }
+
+// Error satisfies the builtin error interface
+func (e System_ContainerValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSystem_Container.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = System_ContainerValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = System_ContainerValidationError{}
+
+// Validate checks the field values on System_Kubernetes with the rules defined
+// in the proto definition for this message. If any rules are violated, an
+// error is returned.
+func (m *System_Kubernetes) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Namespace
+
+	if v, ok := interface{}(m.GetPod()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return System_KubernetesValidationError{
+				field:  "Pod",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	if v, ok := interface{}(m.GetNode()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return System_KubernetesValidationError{
+				field:  "Node",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	return nil
+}
+
+// System_KubernetesValidationError is the validation error returned by
+// System_Kubernetes.Validate if the designated constraints aren't met.
+type System_KubernetesValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e System_KubernetesValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e System_KubernetesValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e System_KubernetesValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e System_KubernetesValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e System_KubernetesValidationError) ErrorName() string {
+	return "System_KubernetesValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e System_KubernetesValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSystem_Kubernetes.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = System_KubernetesValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = System_KubernetesValidationError{}
+
+// Validate checks the field values on System_Kubernetes_Pod with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *System_Kubernetes_Pod) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if utf8.RuneCountInString(m.GetName()) > 1024 {
+		return System_Kubernetes_PodValidationError{
+			field:  "Name",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetUid()) > 1024 {
+		return System_Kubernetes_PodValidationError{
+			field:  "Uid",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	return nil
+}
+
+// System_Kubernetes_PodValidationError is the validation error returned by
+// System_Kubernetes_Pod.Validate if the designated constraints aren't met.
+type System_Kubernetes_PodValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e System_Kubernetes_PodValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e System_Kubernetes_PodValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e System_Kubernetes_PodValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e System_Kubernetes_PodValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e System_Kubernetes_PodValidationError) ErrorName() string {
+	return "System_Kubernetes_PodValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e System_Kubernetes_PodValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSystem_Kubernetes_Pod.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = System_Kubernetes_PodValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = System_Kubernetes_PodValidationError{}
+
+// Validate checks the field values on System_Kubernetes_Node with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *System_Kubernetes_Node) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if utf8.RuneCountInString(m.GetName()) > 1024 {
+		return System_Kubernetes_NodeValidationError{
+			field:  "Name",
+			reason: "value length must be at most 1024 runes",
+		}
+	}
+
+	return nil
+}
+
+// System_Kubernetes_NodeValidationError is the validation error returned by
+// System_Kubernetes_Node.Validate if the designated constraints aren't met.
+type System_Kubernetes_NodeValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e System_Kubernetes_NodeValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e System_Kubernetes_NodeValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e System_Kubernetes_NodeValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e System_Kubernetes_NodeValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e System_Kubernetes_NodeValidationError) ErrorName() string {
+	return "System_Kubernetes_NodeValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e System_Kubernetes_NodeValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sSystem_Kubernetes_Node.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = System_Kubernetes_NodeValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = System_Kubernetes_NodeValidationError{}

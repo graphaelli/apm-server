@@ -1,13 +1,15 @@
 syntax = "proto3";
 package model;
 
+import "validate/validate.proto";
+
 import "service.proto";
 import "process.proto";
 import "system.proto";
 import "user.proto";
 
 message Metadata {
-    Service service = 1;
+    Service service = 1 [(validate.rules).message.required = true];
     Process process = 2;
     System system = 3;
     User user = 4;

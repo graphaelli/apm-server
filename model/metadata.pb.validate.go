@@ -40,6 +40,13 @@ func (m *Metadata) Validate() error {
 		return nil
 	}
 
+	if m.GetService() == nil {
+		return MetadataValidationError{
+			field:  "Service",
+			reason: "value is required",
+		}
+	}
+
 	if v, ok := interface{}(m.GetService()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return MetadataValidationError{
