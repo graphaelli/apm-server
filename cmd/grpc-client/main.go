@@ -7,9 +7,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/golang/protobuf/ptypes/timestamp"
-
 	"github.com/golang/protobuf/ptypes/duration"
+	"github.com/golang/protobuf/ptypes/timestamp"
 	"google.golang.org/grpc"
 
 	"github.com/elastic/apm-server/model"
@@ -107,4 +106,9 @@ func main() {
 		}
 		log.Println("sent", &event)
 	}
+	rsp, err := stream.CloseAndRecv()
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(rsp.String())
 }
