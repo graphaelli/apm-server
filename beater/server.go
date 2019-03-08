@@ -50,6 +50,13 @@ type grpcServer struct {
 	report publish.Reporter
 }
 
+func strPtr(s string) *string {
+	if s == "" {
+		return nil
+	}
+	return &s
+}
+
 func (s *grpcServer) Insert(stream model.Apm_InsertServer) error {
 	logger := logp.NewLogger("grpc")
 	ctx := utility.ContextWithRequestTime(stream.Context(), time.Now())
@@ -71,7 +78,50 @@ func (s *grpcServer) Insert(stream model.Apm_InsertServer) error {
 				Config:      transform.Config{},
 				Metadata: metadata.Metadata{
 					Service: &metadata.Service{
-						Name: &event.Metadata.Service.Name,
+						Name:        strPtr(event.Metadata.Service.GetName()),
+						Version:     strPtr(event.Metadata.Service.GetVersion()),
+						Environment: strPtr(event.Metadata.Service.GetEnvironment()),
+						Agent: metadata.Agent{
+							Name:    strPtr(event.Metadata.Service.Agent.GetName()),
+							Version: strPtr(event.Metadata.Service.Agent.GetVersion()),
+						},
+						Framework: metadata.Framework{
+							Name:    strPtr(event.Metadata.Service.Framework.GetName()),
+							Version: strPtr(event.Metadata.Service.Framework.GetVersion()),
+						},
+						Language: metadata.Language{
+							Name:    strPtr(event.Metadata.Service.Language.GetName()),
+							Version: strPtr(event.Metadata.Service.Language.GetVersion()),
+						},
+						Runtime: metadata.Runtime{
+							Name:    strPtr(event.Metadata.Service.Runtime.GetName()),
+							Version: strPtr(event.Metadata.Service.Runtime.GetVersion()),
+						},
+					},
+					Process: &metadata.Process{
+						Argv: event.Metadata.Process.GetArgv(),
+						Pid:  int(event.Metadata.Process.GetPid()),
+						// Ppid
+						Title: strPtr(event.Metadata.Process.GetTitle()),
+					},
+					System: &metadata.System{
+						/*
+							IP
+							Container
+							Kubernetes
+						*/
+						Architecture: strPtr(event.Metadata.System.GetArchitecture()),
+						Hostname:     strPtr(event.Metadata.System.GetHostname()),
+						Platform:     strPtr(event.Metadata.System.GetPlatform()),
+					},
+					User: &metadata.User{
+						/*
+							IP
+							UserAgent
+						*/
+						Id:    strPtr(event.Metadata.User.GetStringValue()),
+						Email: strPtr(event.Metadata.User.GetEmail()),
+						Name:  strPtr(event.Metadata.User.GetUsername()),
 					},
 				},
 			}
@@ -91,20 +141,66 @@ func (s *grpcServer) Insert(stream model.Apm_InsertServer) error {
 				continue
 			}
 			transformable = &span.Event{
-				Id:       event.Span.Id,
-				Name:     event.Span.Name,
-				Duration: float64(event.Span.Duration.Seconds*1e3 + int64(event.Span.Duration.Nanos/1e6)),
+				/*
+					Start      *float64
+					Context    common.MapStr
+					Service    *metadata.Service
+					Stacktrace m.Stacktrace
+					Sync       *bool
+					Labels     common.MapStr
+					Db   *db
+					Http *http
+				*/
+				Action:        strPtr(event.Span.Action),
+				Duration:      float64(event.Span.Duration.Seconds*1e3 + int64(event.Span.Duration.Nanos/1e6)),
+				Id:            event.Span.Id,
+				Name:          event.Span.Name,
+				ParentId:      event.Span.ParentId,
+				Subtype:       strPtr(event.Span.Subtype),
+				Timestamp:     time.Unix(event.Span.Timestamp.GetSeconds(), int64(event.Span.Timestamp.GetNanos())),
+				TraceId:       event.Span.TraceId,
+				TransactionId: event.Span.TransactionId,
+				Type:          event.Span.Type,
 			}
 		case *model.Event_Transaction:
 			if err := event.Transaction.Validate(); err != nil {
 				logger.Errorf("invalid transaction payload: %s", err)
 				continue
 			}
-			transformable = &transaction.Event{
-				Id:       event.Transaction.Id,
-				Name:     &event.Transaction.Name,
-				Duration: float64(event.Transaction.Duration.Seconds*1e3 + int64(event.Transaction.Duration.Nanos/1e6)),
+			tx := &transaction.Event{
+				/*
+					Context   *m.Context
+					Custom    *m.Custom
+					Http      *m.Http
+					Marks     common.MapStr
+					Labels    *m.Labels
+					Page      *m.Page
+					Service   *metadata.Service
+					Url       *m.Url
+					User      *metadata.User
+				*/
+				Duration:  float64(event.Transaction.Duration.Seconds*1e3 + int64(event.Transaction.Duration.Nanos/1e6)),
+				Id:        event.Transaction.Id,
+				Name:      &event.Transaction.Name,
+				Result:    &event.Transaction.Result,
+				Sampled:   &event.Transaction.Sampled,
+				TraceId:   event.Transaction.TraceId,
+				Timestamp: time.Unix(event.Transaction.Timestamp.GetSeconds(), int64(event.Transaction.Timestamp.GetNanos())),
+				Type:      event.Transaction.Type,
 			}
+			if event.Transaction.ParentId != "" {
+				tx.ParentId = &event.Transaction.ParentId
+			}
+			if event.Transaction.Result != "" {
+				tx.Result = &event.Transaction.Result
+			}
+			spansStarted := int(event.Transaction.SpanCount.GetStarted())
+			spansDropped := int(event.Transaction.SpanCount.GetDropped())
+			tx.SpanCount = transaction.SpanCount{
+				Dropped: &spansDropped,
+				Started: &spansStarted,
+			}
+			transformable = tx
 		}
 
 		if tctx == nil {

@@ -3,7 +3,13 @@ package main
 import (
 	"context"
 	"log"
+	"os"
+	"path/filepath"
+	"time"
 
+	"github.com/golang/protobuf/ptypes/timestamp"
+
+	"github.com/golang/protobuf/ptypes/duration"
 	"google.golang.org/grpc"
 
 	"github.com/elastic/apm-server/model"
@@ -22,16 +28,23 @@ func main() {
 		log.Fatal(err)
 	}
 
+	tTime := time.Now().UnixNano()
+
 	events := []model.Event{
 		{
 			Apm: &model.Event_Metadata{
 				Metadata: &model.Metadata{
 					Service: &model.Service{
-						Name: "service1",
+						Name:    "service1",
+						Version: "alpha",
 						Agent: &model.Service_Agent{
 							Name:    "go-grpc",
 							Version: "0.0.1",
 						},
+					},
+					Process: &model.Process{
+						Pid:   uint32(os.Getpid()),
+						Title: filepath.Base(os.Args[0]),
 					},
 				},
 			},
@@ -39,16 +52,36 @@ func main() {
 		{
 			Apm: &model.Event_Transaction{
 				Transaction: &model.Transaction{
-					Id:   "txid",
-					Name: "t1",
+					Timestamp: &timestamp.Timestamp{
+						Seconds: int64(tTime / 1e9),
+						Nanos:   int32((tTime % 1e9) * 1000),
+					},
+					Duration: &duration.Duration{Seconds: 5},
+					Id:       "5e842a69c70cadf3",
+					Name:     "t1",
+					TraceId:  "e02d9ddfa7d108ad4c99a978fb6d49a0",
+					Type:     "viagrpc",
+					Sampled:  true,
+					SpanCount: &model.Transaction_SpanCount{
+						Started: 1,
+					},
 				},
 			},
 		},
 		{
 			Apm: &model.Event_Span{
 				Span: &model.Span{
-					Id:   "spanid",
-					Name: "s1",
+					Duration: &duration.Duration{Seconds: 2},
+					Id:       "spanid",
+					Name:     "s1",
+					ParentId: "5e842a69c70cadf3",
+					Timestamp: &timestamp.Timestamp{
+						Seconds: int64(tTime/1e9) + 1,
+						Nanos:   int32((tTime%1e9)*1000) + 111,
+					},
+					TransactionId: "5e842a69c70cadf3",
+					TraceId:       "e02d9ddfa7d108ad4c99a978fb6d49a0",
+					Type:          "viagrpc",
 				},
 			},
 		},
