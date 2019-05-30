@@ -102,7 +102,7 @@ func newMuxer(beaterConfig *Config, report publish.Reporter) *http.ServeMux {
 		mux.Handle(path, route.Handler(path, beaterConfig, report))
 	}
 
-	mux.Handle(rootURL, rootHandler(beaterConfig.SecretToken))
+	mux.Handle(rootURL, rootHandler(beaterConfig.SecretToken, beaterConfig.ApiKeyApplication()))
 
 	if beaterConfig.Expvar.isEnabled() {
 		path := beaterConfig.Expvar.Url
@@ -115,7 +115,7 @@ func newMuxer(beaterConfig *Config, report publish.Reporter) *http.ServeMux {
 func backendHandler(beaterConfig *Config, h http.Handler) http.Handler {
 	return logHandler(
 		requestTimeHandler(
-			authHandler(beaterConfig.SecretToken, h)))
+			authHandler(beaterConfig.SecretToken, beaterConfig.ApiKeyApplication(), h)))
 }
 
 func rumHandler(beaterConfig *Config, h http.Handler) http.Handler {
@@ -128,7 +128,7 @@ func rumHandler(beaterConfig *Config, h http.Handler) http.Handler {
 func sourcemapHandler(beaterConfig *Config, h http.Handler) http.Handler {
 	return logHandler(
 		killSwitchHandler(beaterConfig.RumConfig.isEnabled(),
-			authHandler(beaterConfig.SecretToken, h)))
+			authHandler(beaterConfig.SecretToken, beaterConfig.ApiKeyApplication(), h)))
 }
 
 func systemMetadataDecoder(beaterConfig *Config, d decoder.ReqDecoder) decoder.ReqDecoder {

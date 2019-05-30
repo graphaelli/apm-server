@@ -44,6 +44,7 @@ type Config struct {
 	MaxEventSize        int                    `config:"max_event_size"`
 	ShutdownTimeout     time.Duration          `config:"shutdown_timeout"`
 	SecretToken         string                 `config:"secret_token"`
+	ApiKey              *ApiKeyConfig          `config:"api_key"`
 	SSL                 *SSLConfig             `config:"ssl"`
 	MaxConnections      int                    `config:"max_connections"`
 	Expvar              *ExpvarConfig          `config:"expvar"`
@@ -52,6 +53,18 @@ type Config struct {
 	RumConfig           *rumConfig             `config:"rum"`
 	Register            *registerConfig        `config:"register"`
 	Mode                Mode                   `config:"mode"`
+}
+
+func (c *Config) ApiKeyApplication() string {
+	if c.ApiKey.Enabled {
+		return c.ApiKey.Application
+	}
+	return ""
+}
+
+type ApiKeyConfig struct {
+	Enabled     bool   `config:"enabled"`
+	Application string `config:"apm-server"`
 }
 
 type ExpvarConfig struct {
@@ -238,7 +251,11 @@ func defaultConfig(beatVersion string) *Config {
 		MaxEventSize:    300 * 1024, // 300 kb
 		ShutdownTimeout: 5 * time.Second,
 		SecretToken:     "",
-		AugmentEnabled:  true,
+		ApiKey: &ApiKeyConfig{
+			Application: "apm-server",
+			Enabled:     false,
+		},
+		AugmentEnabled: true,
 		Expvar: &ExpvarConfig{
 			Enabled: new(bool),
 			Url:     "/debug/vars",

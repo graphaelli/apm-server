@@ -25,7 +25,7 @@ import (
 	"github.com/elastic/beats/libbeat/version"
 )
 
-func rootHandler(secretToken string) http.Handler {
+func rootHandler(secretToken, apiKeyApp string) http.Handler {
 	serverInfo := common.MapStr{
 		"build_date": version.BuildTime().Format(time.RFC3339),
 		"build_sha":  version.Commit(),
@@ -43,7 +43,7 @@ func rootHandler(secretToken string) http.Handler {
 			return
 		}
 
-		if isAuthorized(r, secretToken) {
+		if isAuthorized(r, secretToken, apiKeyApp) {
 			sendStatus(w, r, detailedOkResponse)
 			return
 		}

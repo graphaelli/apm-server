@@ -204,9 +204,9 @@ func killSwitchHandler(killSwitch bool, h http.Handler) http.Handler {
 	})
 }
 
-func authHandler(secretToken string, h http.Handler) http.Handler {
+func authHandler(secretToken, apiKeyApp string, h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if !isAuthorized(r, secretToken) {
+		if !isAuthorized(r, secretToken, apiKeyApp) {
 			sendStatus(w, r, unauthorizedResponse)
 			return
 		}
@@ -217,17 +217,42 @@ func authHandler(secretToken string, h http.Handler) http.Handler {
 // isAuthorized checks the Authorization header. It must be in the form of:
 //   Authorization: Bearer <secret-token>
 // Bearer must be part of it.
-func isAuthorized(req *http.Request, secretToken string) bool {
-	// No token configured
-	if secretToken == "" {
+func isAuthorized(req *http.Request, secretToken, apiKeyApp string) bool {
+	// No token configured and api auth disabled
+	if secretToken == "" && apiKeyApp == "" {
 		return true
 	}
 	header := req.Header.Get("Authorization")
 	parts := strings.Split(header, " ")
-	if len(parts) != 2 || parts[0] != "Bearer" {
+	if len(parts) != 2 {
 		return false
 	}
-	return subtle.ConstantTimeCompare([]byte(parts[1]), []byte(secretToken)) == 1
+	if parts[0] == "Bearer" && secretToken != "" {
+		return subtle.ConstantTimeCompare([]byte(parts[1]), []byte(secretToken)) == 1
+	}
+	if parts[0] == "ApiKey" && apiKeyApp != "" {
+		body := strings.NewReader(`{"application":[{"application":"` + apiKeyApp + `","privileges":["agent"],"resources":["*"]}]}`)
+		req, _ := http.NewRequest(http.MethodPost, "http://localhost:9200/_security/user/_has_privileges", body)
+		req.Header.Add("Authorization", "ApiKey "+parts[1])
+		req.Header.Add("Content-Type", "application/json")
+		rsp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			panic(err)
+		}
+		if rsp.StatusCode != http.StatusOK {
+			fmt.Println(rsp.StatusCode)
+			return false
+		}
+		var auth struct {
+			HasAllRequested bool `json:"has_all_requested"`
+		}
+		if err := json.NewDecoder(rsp.Body).Decode(&auth); err != nil {
+			panic(err)
+		}
+		fmt.Println(auth)
+		return auth.HasAllRequested
+	}
+	return false
 }
 
 func corsHandler(allowedOrigins []string, h http.Handler) http.Handler {
