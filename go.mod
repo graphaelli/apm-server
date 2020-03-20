@@ -24,7 +24,6 @@ require (
 	github.com/google/addlicense v0.0.0-20190907113143-be125746c2c4 // indirect
 	github.com/google/go-cmp v0.4.0
 	github.com/google/pprof v0.0.0-20191218002539-d4f498aebedc
-	github.com/grpc-ecosystem/grpc-gateway v1.12.2-0.20191114094031-9087bb89f1e0 // indirect
 	github.com/hashicorp/golang-lru v0.5.3
 	github.com/jaegertracing/jaeger v1.16.0
 	github.com/jstemmer/go-junit-report v0.9.1
@@ -45,10 +44,10 @@ require (
 	github.com/stretchr/testify v1.4.0
 	github.com/t-yuki/gocover-cobertura v0.0.0-20180217150009-aaee18c8195c
 	github.com/uber/tchannel-go v1.16.0 // indirect
-	go.elastic.co/apm v1.7.0
+	go.elastic.co/apm v1.7.2
 	go.elastic.co/apm/module/apmelasticsearch v1.7.0
 	go.elastic.co/apm/module/apmgrpc v1.7.0
-	go.elastic.co/apm/module/apmhttp v1.7.0
+	go.elastic.co/apm/module/apmhttp v1.7.2
 	go.uber.org/atomic v1.6.0
 	go.uber.org/multierr v1.5.0 // indirect
 	go.uber.org/zap v1.14.0
@@ -57,7 +56,6 @@ require (
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
 	golang.org/x/sys v0.0.0-20200302150141-5c8b2ff67527 // indirect
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
-	golang.org/x/tools v0.0.0-20200305224536-de023d59a5d1 // indirect
 	google.golang.org/grpc v1.27.1
 	gopkg.in/yaml.v2 v2.2.8
 	howett.net/plist v0.0.0-20200225050739-77e249a2e2ba // indirect

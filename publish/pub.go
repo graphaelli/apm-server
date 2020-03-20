@@ -86,6 +86,9 @@ func NewPublisher(pipeline beat.Pipeline, tracer *apm.Tracer, cfg *PublisherConf
 	if cfg.Pipeline != "" {
 		processingCfg.Meta = map[string]interface{}{"pipeline": cfg.Pipeline}
 	}
+	if err := pipeline.SetTracer(tracer); err != nil {
+		return nil, err
+	}
 	client, err := pipeline.ConnectWith(beat.ClientConfig{
 		PublishMode: beat.GuaranteedSend,
 		// If set >0 `Close` will block for the duration or until pipeline is empty
@@ -167,7 +170,7 @@ func (p *Publisher) processPendingReq(req PendingReq) {
 		span.End()
 
 		span = tx.StartSpan("PublishAll", "Publisher", nil)
-		p.client.PublishAll(events)
+		p.client.PublishAll(apm.ContextWithTransaction(context.Background(), tx), events)
 		span.End()
 	}
 }
