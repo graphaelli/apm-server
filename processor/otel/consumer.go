@@ -93,6 +93,9 @@ func (c *Consumer) Stats() ConsumerStats {
 // ConsumeTraces consumes OpenTelemetry trace data,
 // converting into Elastic APM events and reporting to the Elastic APM schema.
 func (c *Consumer) ConsumeTraces(ctx context.Context, traces pdata.Traces) error {
+	logger := logp.NewLogger(logs.Otel)
+	logger.Infof("ConsumeTraces")
+
 	batch := c.convert(traces)
 	return c.Processor.ProcessBatch(ctx, batch)
 }
@@ -129,6 +132,7 @@ func (c *Consumer) convertSpan(
 	out *model.Batch,
 ) {
 	logger := logp.NewLogger(logs.Otel)
+	logger.Info("convertSpan: %#v", metadata)
 
 	root := otelSpan.ParentSpanID().IsEmpty()
 
