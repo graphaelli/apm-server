@@ -23,6 +23,8 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/elastic/beats/v7/libbeat/logp"
+
 	"go.opentelemetry.io/collector/consumer/pdata"
 	"go.opentelemetry.io/collector/translator/conventions"
 
@@ -39,8 +41,10 @@ var (
 )
 
 func translateResourceMetadata(resource pdata.Resource, out *model.Metadata) {
+	logger := logp.NewLogger("otlp")
 	var exporterVersion string
 	resource.Attributes().ForEach(func(k string, v pdata.AttributeValue) {
+		logger.Infof("processing %s: %#v", k, v)
 		switch k {
 		case conventions.AttributeServiceName:
 			out.Service.Name = cleanServiceName(v.StringVal())
