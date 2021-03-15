@@ -29,8 +29,9 @@ import (
 	"go.opentelemetry.io/collector/consumer/pdata"
 	"go.opentelemetry.io/collector/translator/conventions"
 
-	"github.com/elastic/apm-server/model"
 	"github.com/elastic/beats/v7/libbeat/common"
+
+	"github.com/elastic/apm-server/model"
 )
 
 const (
@@ -44,12 +45,9 @@ var (
 func translateResourceMetadata(resource pdata.Resource, out *model.Metadata) {
 	logger := logp.NewLogger(logs.Otel)
 	var exporterVersion string
+	logger.Infof("translateResourceMetadata %d attributes", resource.Attributes().Len())
 	resource.Attributes().ForEach(func(k string, v pdata.AttributeValue) {
-		if v.Type().String() == "STRING" {
-			logger.Infof("processing %s (%s): %s", k, v.Type().String(), v.StringVal())
-		} else {
-			logger.Infof("processing %s (%s): %#v", k, v.Type().String(), v)
-		}
+		logger.Infof("translateResourceMetadata processing %s (%s): %s", k, v.Type().String(), ifaceAttributeValue(v))
 		switch k {
 		case conventions.AttributeServiceName:
 			out.Service.Name = cleanServiceName(v.StringVal())
